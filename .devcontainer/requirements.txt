@@ -1,0 +1,8 @@
+langchain
+openai
+numpy
+openai
+python-dotenv
+azure-core
+azure-cosmos
+tenacity

@@ -1,0 +1,290 @@
+{
+    "certifications": [
+        {
+            "certification_name": "AZ-204: Developing Solutions for Microsoft Azure",
+            "studyguide_url": "https://learn.microsoft.com/credentials/certifications/resources/study-guides/az-204",
+            "date_measured": "October 18, 2023",
+            "audience_profile": {
+                "description": "As a candidate for this exam, you’re responsible for participating in all phases of development, from requirements gathering to monitoring. You should have proficiency in various Azure aspects and work alongside various professionals.",
+                "proficiency_requirements": [
+                    "SDK",
+                    "Data storage options",
+                    "Data connections",
+                    "APIs",
+                    "App authentication and authorization",
+                    "Compute and container deployment",
+                    "Debugging"
+                ],
+                "partnerships": [
+                    "Cloud solution architects",
+                    "DBAs",
+                    "DevOps",
+                    "Infrastructure admins",
+                    "Other stakeholders"
+                ],
+                "experience_requirements": "At least two years of professional development experience and experience with Azure.",
+                "other_skills": [
+                    "Able to program in an Azure-supported language.",
+                    "Proficient using Azure CLI, Azure PowerShell, and other tools."
+                ]
+            },
+            "skills": [
+                {
+                    "skill_name": "Develop Azure compute solutions",
+                    "percentage": "25–30%",
+                    "services": [
+                        "Azure Container Registry",
+                        "Azure Container Instance",
+                        "Azure Container Apps",
+                        "Azure App Service Web App",
+                        "Azure Functions"
+                    ],
+                    "sub_skills": [
+                        "Implement containerized solutions: Create and manage container images, Publish an image to Azure Container Registry, Run containers using Azure Container Instance, Create solutions using Azure Container Apps",
+                        "Implement Azure App Service Web Apps: Create an Azure App Service Web App, Enable diagnostics logging, Deploy code to a web app, Configure web app settings, Implement autoscaling",
+                        "Implement Azure Functions: Create and configure an Azure Function App, Implement input and output bindings, Implement function triggers"
+                    ]
+                },
+                {
+                    "skill_name": "Develop for Azure storage",
+                    "percentage": "15–20%",
+                    "services": [
+                        "Azure Cosmos DB",
+                        "Azure Blob Storage"
+                    ],
+                    "sub_skills": [
+                        "Develop solutions using Azure Cosmos DB: Perform operations on containers and items, Set consistency level, Implement change feed notifications",
+                        "Develop solutions using Azure Blob Storage: Set and retrieve properties and metadata, Perform operations using the SDK, Implement storage policies, Implement static site hosting"
+                    ]
+                },
+                {
+                    "skill_name": "Implement Azure security",
+                    "percentage": "20–25%",
+                    "services": [
+                        "Microsoft Identity platform",
+                        "Microsoft Entra ID",
+                        "Microsoft Graph",
+                        "App Configuration",
+                        "Azure Key Vault"
+                    ],
+                    "sub_skills": [
+                        "Implement user authentication and authorization: Authenticate and authorize users using Microsoft Identity, Authenticate and authorize users and apps using Microsoft Entra ID, Create shared access signatures, Interact with Microsoft Graph",
+                        "Implement secure Azure solutions: Secure app configuration data, Develop code for Azure Key Vault, Implement Managed Identities"
+                    ]
+                },
+                {
+                    "skill_name": "Monitor, troubleshoot, and optimize Azure solutions",
+                    "percentage": "15–20%",
+                    "services": [
+                        "Azure Cache for Redis",
+                        "Azure Content Delivery Network",
+                        "Application Insights"
+                    ],
+                    "sub_skills": [
+                        "Implement caching: Configure Azure Cache for Redis, Implement application cache patterns, Implement Azure Content Delivery Network",
+                        "Troubleshoot using Application Insights: Configure for Application Insights, Monitor and analyze metrics, Implement Application Insights web tests and alerts"
+                    ]
+                },
+                {
+                    "skill_name": "Connect to and consume Azure and third-party services",
+                    "percentage": "15–20%",
+                    "services": [
+                        "Azure API Management",
+                        "Azure Event Grid",
+                        "Azure Event Hub",
+                        "Azure Service Bus",
+                        "Azure Queue Storage"
+                    ],
+                    "sub_skills": [
+                        "Implement API Management: Create an API Management instance, Document APIs, Configure access to APIs, Implement API policies",
+                        "Develop event-based solutions: Implement solutions using Azure Event Grid, Implement solutions using Azure Event Hub",
+                        "Develop message-based solutions: Implement solutions using Azure Service Bus, Implement solutions using Azure Queue Storage queues"
+                    ]
+                }
+            ]
+        },
+        {
+            "certification_name": "AZ-104: Microsoft Azure Administrator",
+            "studyguide_url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104",
+            "date_measured": "July 28, 2023",
+            "audience_profile": {
+                "description": "Candidates for this exam should have subject matter expertise in implementing, managing, and monitoring an organization’s Microsoft Azure environment, including virtual networks, storage, compute, identity, security, and governance.",
+                "proficiency_requirements": [
+                    "Operating systems",
+                    "Networking",
+                    "Servers",
+                    "Virtualization",
+                    "PowerShell",
+                    "Azure CLI",
+                    "Azure portal",
+                    "ARM templates",
+                    "Azure AD"
+                ],
+                "partnerships": [
+                    "Azure networking professionals",
+                    "Azure security professionals",
+                    "Azure database professionals",
+                    "Azure application development professionals",
+                    "Azure DevOps professionals"
+                ],
+                "experience_requirements": "Familiarity with mentioned proficiency requirements and roles.",
+                "other_skills": []
+            },
+            "skills": [
+                {
+                    "skill_name": "Manage Azure identities and governance",
+                    "percentage": "20–25%",
+                    "services": [
+                        "Azure AD",
+                        "Azure Policy",
+                        "Azure Advisor",
+                        "Azure Management Groups"
+                    ],
+                    "sub_skills": [
+                        "Manage Azure AD users and groups: Create users and groups, Manage user and group properties, Manage licenses in Azure AD, Manage external users, Configure SSPR",
+                        "Manage access to Azure resources: Manage built-in Azure roles, Assign roles at different scopes, Interpret access assignments",
+                        "Manage Azure subscriptions and governance: Implement and manage Azure Policy, Configure resource locks, Apply and manage tags on resources, Manage resource groups, Manage subscriptions, Manage costs using alerts and Azure Advisor, Configure management groups"
+                    ]
+                },
+                {
+                    "skill_name": "Implement and manage storage",
+                    "percentage": "15–20%",
+                    "services": [
+                        "Azure Storage",
+                        "Azure Storage Explorer",
+                        "AzCopy",
+                        "Azure Files",
+                        "Azure Blob Storage"
+                    ],
+                    "sub_skills": [
+                        "Configure access to storage: Configure Azure Storage firewalls and VNETs, Create and use SAS tokens, Configure stored access policies, Manage access keys, Configure identity-based access for Azure Files",
+                        "Configure and manage storage accounts: Create and configure storage accounts, Configure Azure Storage redundancy, Configure object replication, Configure storage account encryption, Manage data using Azure Storage Explorer and AzCopy",
+                        "Configure Azure Files and Azure Blob Storage: Create and configure a file share in Azure Storage, Create and configure a container in Blob Storage, Configure storage tiers, Configure snapshots and soft delete for Azure Files, Configure blob lifecycle management, Configure blob versioning"
+                    ]
+                },
+                {
+                    "skill_name": "Deploy and manage Azure compute resources",
+                    "percentage": "20–25%",
+                    "services": [
+                        "Azure Resource Manager",
+                        "Virtual Machines",
+                        "Azure Virtual Machine Scale Sets",
+                        "Azure Container Registry",
+                        "Azure Container Instances",
+                        "Azure Container Apps",
+                        "Azure App Service"
+                    ],
+                    "sub_skills": [
+                        "Automate deployment of resources using ARM templates or Bicep files: Interpret, Modify, Deploy, Export a deployment as an ARM template or compile as a Bicep file",
+                        "Create and configure virtual machines: Create a VM, Configure Azure Disk Encryption, Move VM, Manage VM sizes, Manage VM disks, Deploy VMs to availability zones and sets",
+                        "Provision and manage containers: Create and manage Azure container registry, Provision containers using Azure Container Instances and Apps, Manage sizing and scaling for containers",
+                        "Create and configure Azure App Service: Provision App Service plan, Configure scaling, Create App Service, Configure certificates, Map DNS, Configure backup, Networking settings, Deployment slots"
+                    ]
+                },
+                {
+                    "skill_name": "Implement and manage virtual networking",
+                    "percentage": "15–20%",
+                    "services": [
+                        "Azure Virtual Networks",
+                        "Azure DNS",
+                        "Azure Load Balancer",
+                        "Azure Bastion",
+                        "Azure PaaS"
+                    ],
+                    "sub_skills": [
+                        "Configure and manage virtual networks: Create and configure networks and subnets, Configure peering, Configure public IPs, Configure user-defined routes, Troubleshoot network connectivity",
+                        "Configure secure access: Create and configure NSGs and application security groups, Evaluate NSG rules, Implement Azure Bastion, Configure service and private endpoints for Azure PaaS",
+                        "Configure name resolution and load balancing: Configure Azure DNS, Configure load balancer, Troubleshoot load balancing"
+                    ]
+                },
+                {
+                    "skill_name": "Monitor and maintain Azure resources",
+                    "percentage": "10–15%",
+                    "services": [
+                        "Azure Monitor",
+                        "Azure Network Watcher",
+                        "Azure Recovery Services",
+                        "Azure Backup",
+                        "Azure Site Recovery"
+                    ],
+                    "sub_skills": [
+                        "Monitor resources: Interpret metrics in Azure Monitor, Configure log settings, Query and analyze logs, Set up alert rules in Azure Monitor, Configure and interpret monitoring using Azure Monitor Insights, Use Network Watcher and Connection Monitor",
+                        "Implement backup and recovery: Create Recovery Services and Backup vaults, Configure backup policies, Perform backup and restore operations, Configure Azure Site Recovery, Perform failover to a secondary region"
+                    ]
+                }
+            ]
+        },
+        {
+            "certification_name": "AZ-900: Microsoft Azure Fundamentals",
+            "studyguide_url": "https://learn.microsoft.com/credentials/certifications/resources/study-guides/az-900",
+            "date_measured": "July 31, 2023",
+            "audience_profile": {
+                "description": "Candidates for this exam are technology professionals who want to demonstrate foundational knowledge of cloud concepts in general and Azure in particular. They can describe Azure architectural components and Azure services, such as compute, networking, and storage. They also describe features and tools to secure, govern, and administer Azure.",
+                "proficiency_requirements": [
+                    "Describe Azure architectural components",
+                    "Describe Azure services",
+                    "Skills in IT areas like infrastructure management, database management, or software development"
+                ],
+                "partnerships": [],
+                "experience_requirements": "Skills and experience working with an area of IT, such as infrastructure management, database management, or software development.",
+                "other_skills": []
+            },
+            "skills": [
+                {
+                    "skill_name": "Describe cloud concepts",
+                    "percentage": "25–30%",
+                    "services": [
+                        
+                    ],
+                    "sub_skills": [
+                        "Define cloud computing",
+                        "Define cloud models",
+                        "Identify use cases for cloud models",
+                        "Describe the consumption-based model",
+                        "Describe benefits of cloud services",
+                        "Describe IaaS, PaaS, and SaaS"
+                    ]
+                },
+                {
+                    "skill_name": "Describe Azure architecture and services",
+                    "percentage": "35–40%",
+                    "services": [
+                        "Azure regions",
+                        "Azure datacenters",
+                        "Azure resources",
+                        "Azure virtual networks",
+                        "Azure Storage",
+                        "Azure Active Directory",
+                        "Azure virtual machines"
+                    ],
+                    "sub_skills": [
+                        "Describe Azure regions and datacenters",
+                        "Describe resources and resource groups",
+                        "Compare compute types",
+                        "Describe virtual networking and DNS",
+                        "Describe storage services and options",
+                        "Describe Azure identity and security"
+                    ]
+                },
+                {
+                    "skill_name": "Describe Azure management and governance",
+                    "percentage": "30–35%",
+                    "services": [
+                        "Azure pricing calculator",
+                        "Azure Policy",
+                        "Azure Arc",
+                        "Azure Cloud Shell",
+                        "Azure Monitor"
+                    ],
+                    "sub_skills": [
+                        "Describe factors affecting costs in Azure",
+                        "Describe cost management capabilities",
+                        "Describe Azure governance and compliance tools",
+                        "Describe Azure deployment and management tools",
+                        "Describe monitoring tools in Azure"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+{
+    "certification_name": "AZ-204: Developing Solutions for Microsoft Azure",
+    "studyguide_url":"https://learn.microsoft.com/credentials/certifications/resources/study-guides/az-204",
+    "date_measured": "October 18, 2023",
+    "audience_profile": {
+        "description": "As a candidate for this exam, you’re responsible for participating in all phases of development, from requirements gathering to monitoring. You should have proficiency in various Azure aspects and work alongside various professionals.",
+        "proficiency_requirements": [
+            "SDK",
+            "Data storage options",
+            "Data connections",
+            "APIs",
+            "App authentication and authorization",
+            "Compute and container deployment",
+            "Debugging"
+        ],
+        "partnerships": [
+            "Cloud solution architects",
+            "DBAs",
+            "DevOps",
+            "Infrastructure admins",
+            "Other stakeholders"
+        ],
+        "experience_requirements": "At least two years of professional development experience and experience with Azure.",
+        "other_skills": [
+            "Able to program in an Azure-supported language.",
+            "Proficient using Azure CLI, Azure PowerShell, and other tools."
+        ]
+    },
+    "skills": [
+        {
+            "skill_name": "Develop Azure compute solutions",
+            "percentage": "25–30%",
+            "sub_skills": [
+                "Implement containerized solutions: Create and manage container images, Publish an image to Azure Container Registry, Run containers using Azure Container Instance, Create solutions using Azure Container Apps",
+                "Implement Azure App Service Web Apps: Create an Azure App Service Web App, Enable diagnostics logging, Deploy code to a web app, Configure web app settings, Implement autoscaling",
+                "Implement Azure Functions: Create and configure an Azure Function App, Implement input and output bindings, Implement function triggers"
+            ]
+        },
+        {
+            "skill_name": "Develop for Azure storage",
+            "percentage": "15–20%",
+            "sub_skills": [
+                "Develop solutions using Azure Cosmos DB: Perform operations on containers and items, Set consistency level, Implement change feed notifications",
+                "Develop solutions using Azure Blob Storage: Set and retrieve properties and metadata, Perform operations using the SDK, Implement storage policies, Implement static site hosting"
+            ]
+        },
+        {
+            "skill_name": "Implement Azure security",
+            "percentage": "20–25%",
+            "sub_skills": [
+                "Implement user authentication and authorization: Authenticate and authorize users using Microsoft Identity, Authenticate and authorize users and apps using Microsoft Entra ID, Create shared access signatures, Interact with Microsoft Graph",
+                "Implement secure Azure solutions: Secure app configuration data, Develop code for Azure Key Vault, Implement Managed Identities"
+            ]
+        },
+        {
+            "skill_name": "Monitor, troubleshoot, and optimize Azure solutions",
+            "percentage": "15–20%",
+            "sub_skills": [
+                "Implement caching: Configure Azure Cache for Redis, Implement application cache patterns, Implement Azure Content Delivery Network",
+                "Troubleshoot using Application Insights: Configure for Application Insights, Monitor and analyze metrics, Implement Application Insights web tests and alerts"
+            ]
+        },
+        {
+            "skill_name": "Connect to and consume Azure and third-party services",
+            "percentage": "15–20%",
+            "sub_skills": [
+                "Implement API Management: Create an API Management instance, Document APIs, Configure access to APIs, Implement API policies",
+                "Develop event-based solutions: Implement solutions using Azure Event Grid, Implement solutions using Azure Event Hub",
+                "Develop message-based solutions: Implement solutions using Azure Service Bus, Implement solutions using Azure Queue Storage queues"
+            ]
+        }
+    ]
+}

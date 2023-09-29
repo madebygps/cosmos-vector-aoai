@@ -31,8 +31,8 @@ from tenacity import retry, wait_random_exponential, stop_after_attempt
 
 from dotenv import dotenv_values
 
-# specify the name of the .env file name 
-env_name = "local.env" # following example.env template change to your own .env file name
+# specify the name of the .env file name
+env_name = "local.env"  # following example.env template change to your own .env file name
 config = dotenv_values(env_name)
 
 cosmosdb_endpoint = config['cosmos_db_api_endpoint']
@@ -49,11 +49,16 @@ openai.api_version = config['openai_api_version']
 embeddings_deployment = config['openai_embeddings_deployment']
 completions_deployment = config['openai_completions_deployment']
 
+# Load certifications.json data file
+certification_data_file = open(file="certifications.json", mode="r")
+# data_file = open(file="../../DataSet/AzureServices/text-sample_w_embeddings.json", mode="r") # load this file instead if embeddings were previously created and saved.
+certification_data = json.load(certification_data_file)
+certification_data_file.close()
+
 # Load text-sample.json data file
-data_file = open(file="text-sample.json", mode="r")
-#data_file = open(file="../../DataSet/AzureServices/text-sample_w_embeddings.json", mode="r") # load this file instead if embeddings were previously created and saved.
-data = json.load(data_file)
-data_file.close()
+services_data_file = open(file="azure-services.json", mode="r")
+services_data = json.load(services_data_file)
+services_data_file.close()
 
 
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(10))
@@ -65,29 +70,44 @@ def generate_embeddings(text):
     response = openai.Embedding.create(
         input=text, engine=embeddings_deployment)
     embeddings = response['data'][0]['embedding']
-    time.sleep(0.5) # rest period to avoid rate limiting on AOAI for free tier
+    time.sleep(0.5)  # rest period to avoid rate limiting on AOAI for free tier
     return embeddings
 
-# Generate embeddings for title and content fields
-# for item in data:
-#     title = item['title']
-#     content = item['content']
-#     title_embeddings = generate_embeddings(title)
-#     content_embeddings = generate_embeddings(content)
-#     item['titleVector'] = title_embeddings
-#     item['contentVector'] = content_embeddings
-#     item['@search.action'] = 'upload'
 
-# # Save embeddings to sample_text_w_embeddings.json file
-# with open("text-sample_w_embeddings.json", "w") as f:
-#     json.dump(data, f)
+# Generate embeddings for title and content fields
+for service in services_data:
+    name = service['title']
+    content = service['content']
+    service_name_embeddings = generate_embeddings(name)
+    service_content_embeddings = generate_embeddings(content)
+    service['nameVector'] = service_name_embeddings
+    service['contentVector'] = service_content_embeddings
+    service['@search.action'] = 'upload'
+
+# Save embeddings to sample_text_w_embeddings.json file
+with open("services_w_embeddings.json", "w") as f:
+    json.dump(services_data, f)
+
+for item in certification_data['certifications']:
+    skills = item['skills']
+    for skill in skills:
+        certification_skill = (f"{item['certification_name']} {skill}")
+        certification_skill_embeddings = generate_embeddings(certification_skill)
+        item['certificationVector'] = certification_skill_embeddings
+        item['@search.action'] = 'upload'
+
+
+# Save embeddings to sample_text_w_embeddings.json file
+with open("certs_w_embeddings.json", "w") as f:
+    json.dump(certification_data, f)
+
 
 # Create the client to interact with the Azure Cosmos DB resource
 client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
 
 # Create a database in Azure Cosmos DB.
 try:
-    database = client.create_database_if_not_exists(id="VectorSearchTutorial")
+    database = client.create_database_if_not_exists(id="CertificationData")
     print(f"Database created: {database.id}")
 
 except exceptions.CosmosResourceExistsError:
@@ -97,7 +117,7 @@ except exceptions.CosmosResourceExistsError:
 try:
     partition_key_path = PartitionKey(path="/id")
     container = database.create_container_if_not_exists(
-        id="AzureServices",
+        id="Certifications",
         partition_key=partition_key_path
     )
     print(f"Container created: {container.id}")
@@ -106,28 +126,35 @@ except exceptions.CosmosResourceExistsError:
     print("Container already exists.")
 
 # Create data items for every entry in the dataset, insert them into the database and collection specified above.
-for data_item in data:
+for service_data_item in services_data:
     try:
-        container.create_item(body=data_item)
-    
+        container.create_item(body=service_data_item)
+
+    except exceptions.CosmosResourceExistsError:
+        print("Data item already exists.")
+
+for certification_data_item in certification_data:
+    try:
+        container.create_item(body=certification_data_item)
+
     except exceptions.CosmosResourceExistsError:
         print("Data item already exists.")
 
 # Create index
 
 cog_search_cred = AzureKeyCredential(cog_search_key)
-index_name = "cosmosdb-vector-search-index"
+index_name = "project-generator-index"
 
 # Create a search index and define the schema (names, types, and parameters)
 index_client = SearchIndexClient(
     endpoint=cog_search_endpoint, credential=cog_search_cred)
 fields = [
     SimpleField(name="id", type=SearchFieldDataType.String, key=True),
-    SearchableField(name="title", type=SearchFieldDataType.String,
+    SearchableField(name="name", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    SearchableField(name="content", type=SearchFieldDataType.String,
+    SearchableField(name="skills", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    SearchableField(name="category", type=SearchFieldDataType.String,
+    SearchableField(name="proficiency", type=SearchFieldDataType.String,
                     filterable=True, searchable=True, retrievable=True),
     SearchField(name="titleVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                 searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
@@ -172,22 +199,25 @@ print(f' {result.name} created')
 
 # Create indexer
 
+
 def _create_datasource():
-    # Here we create a datasource. 
+    # Here we create a datasource.
     ds_client = SearchIndexerClient(cog_search_endpoint, cog_search_cred)
     container = SearchIndexerDataContainer(name="AzureServices")
     data_source_connection = SearchIndexerDataSourceConnection(
         name="cosmosdb-tutorial-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=VectorSearchTutorial"), container=container
     )
-    data_source = ds_client.create_or_update_data_source_connection(data_source_connection)
+    data_source = ds_client.create_or_update_data_source_connection(
+        data_source_connection)
     return data_source
+
 
 ds_name = _create_datasource().name
 
 indexer = SearchIndexer(
-        name="cosmosdb-tutorial-indexer",
-        data_source_name=ds_name,
-        target_index_name=index_name)
+    name="cosmosdb-tutorial-indexer",
+    data_source_name=ds_name,
+    target_index_name=index_name)
 
 indexer_client = SearchIndexerClient(cog_search_endpoint, cog_search_cred)
 indexer_client.create_or_update_indexer(indexer)  # create the indexer
@@ -199,19 +229,24 @@ print(result)
 indexer_client.run_indexer(result.name)
 
 # Simple function to assist with vector search
+
+
 def vector_search(query):
-    search_client = SearchClient(cog_search_endpoint, index_name, cog_search_cred)  
-    results = search_client.search(  
-        search_text="",  
-        vector=Vector(value=generate_embeddings(query), k=3, fields="contentVector"),  
-        select=["title", "content", "category"] 
+    search_client = SearchClient(
+        cog_search_endpoint, index_name, cog_search_cred)
+    results = search_client.search(
+        search_text="",
+        vector=Vector(value=generate_embeddings(
+            query), k=3, fields="contentVector"),
+        select=["title", "content", "category"]
     )
     return results
 
-query = "tools for software development"  
+
+query = "tools for software development"
 results = vector_search(query)
-for result in results:  
-    print(f"Title: {result['title']}")  
-    print(f"Score: {result['@search.score']}")  
-    print(f"Content: {result['content']}")  
-    print(f"Category: {result['category']}\n")  
+for result in results:
+    print(f"Title: {result['title']}")
+    print(f"Score: {result['@search.score']}")
+    print(f"Content: {result['content']}")
+    print(f"Category: {result['category']}\n")

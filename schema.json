@@ -1,0 +1,18 @@
+{
+    "date_measured": "string",
+    "audience_profile": {
+        "description": "string",
+        "proficiency_requirements": ["string"],
+        "partnerships": ["string"],
+        "experience_requirements": "string",
+        "other_skills": ["string"]
+    },
+    "skills": [
+        {
+            "skill_name": "string",
+            "percentage": "string",
+            "sub_skills": ["string"],
+            "services": ["string"]
+        }
+    ]
+}

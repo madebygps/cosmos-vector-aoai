@@ -50,15 +50,10 @@ embeddings_deployment = config['openai_embeddings_deployment']
 completions_deployment = config['openai_completions_deployment']
 
 # Load certifications.json data file
-certification_data_file = open(file="certifications.json", mode="r")
+certification_data_file = open(file="certs_w_services.json", mode="r")
 # data_file = open(file="../../DataSet/AzureServices/text-sample_w_embeddings.json", mode="r") # load this file instead if embeddings were previously created and saved.
 certification_data = json.load(certification_data_file)
 certification_data_file.close()
-
-# Load text-sample.json data file
-services_data_file = open(file="azure-services.json", mode="r")
-services_data = json.load(services_data_file)
-services_data_file.close()
 
 
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(10))
@@ -74,33 +69,33 @@ def generate_embeddings(text):
     return embeddings
 
 
-# Generate embeddings for title and content fields
-for service in services_data:
-    name = service['title']
-    content = service['content']
-    service_name_embeddings = generate_embeddings(name)
-    service_content_embeddings = generate_embeddings(content)
-    service['nameVector'] = service_name_embeddings
-    service['contentVector'] = service_content_embeddings
-    service['@search.action'] = 'upload'
+# Generate embeddings for each certification name, skill name, and service description
+# Generate embeddings for each certification name, skill name, and service description
+for certification in certification_data['certifications']:
+    certification_name = certification['certification_name']
+    certification_name_embeddings = generate_embeddings(certification_name)
+    certification['certificationNameVector'] = certification_name_embeddings
+    certification_skills = certification['skills']
+    for certification_skill in certification_skills:
+        skill_name = certification_skill['skill_name']
+        skill_name_embeddings = generate_embeddings(skill_name)
+        certification_skill['skillNameVector'] = skill_name_embeddings
+        skill_services = certification_skill['services']
+        for skill_service in skill_services:
+            service_name = skill_service['service_name']
+            service_name_embeddings = generate_embeddings(service_name)
+            skill_service['serviceNameVector'] = service_name_embeddings
+            service_description = skill_service['service_description']
+            service_description_embeddings = generate_embeddings(
+                service_description)
+            skill_service['serviceDescriptionVector'] = service_description_embeddings
+
+    certification['@search.action'] = 'upload'
+
 
 # Save embeddings to sample_text_w_embeddings.json file
-with open("services_w_embeddings.json", "w") as f:
-    json.dump(services_data, f)
-
-for item in certification_data['certifications']:
-    skills = item['skills']
-    for skill in skills:
-        certification_skill = (f"{item['certification_name']} {skill}")
-        certification_skill_embeddings = generate_embeddings(certification_skill)
-        item['certificationVector'] = certification_skill_embeddings
-        item['@search.action'] = 'upload'
-
-
-# Save embeddings to sample_text_w_embeddings.json file
-with open("certs_w_embeddings.json", "w") as f:
+with open("certs_w_embeddings_services.json", "w") as f:
     json.dump(certification_data, f)
-
 
 # Create the client to interact with the Azure Cosmos DB resource
 client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
@@ -126,9 +121,9 @@ except exceptions.CosmosResourceExistsError:
     print("Container already exists.")
 
 # Create data items for every entry in the dataset, insert them into the database and collection specified above.
-for service_data_item in services_data:
+for certification_data_item in certification_data:
     try:
-        container.create_item(body=service_data_item)
+        container.create_item(body=certification_data_item)
 
     except exceptions.CosmosResourceExistsError:
         print("Data item already exists.")
@@ -150,15 +145,21 @@ index_client = SearchIndexClient(
     endpoint=cog_search_endpoint, credential=cog_search_cred)
 fields = [
     SimpleField(name="id", type=SearchFieldDataType.String, key=True),
-    SearchableField(name="name", type=SearchFieldDataType.String,
+    SearchableField(name="certification_name", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    SearchableField(name="skills", type=SearchFieldDataType.String,
+    SearchableField(name="skill_name", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    SearchableField(name="proficiency", type=SearchFieldDataType.String,
-                    filterable=True, searchable=True, retrievable=True),
-    SearchField(name="titleVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+    SearchableField(name="service_name", type=SearchFieldDataType.String,
+                    searchable=True, retrievable=True),
+    SearchableField(name="service_description", type=SearchFieldDataType.String,
+                    searchable=True, retrievable=True),
+    SearchField(name="certificationNameVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                 searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
-    SearchField(name="contentVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+    SearchField(name="skillNameVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+                searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
+    SearchField(name="serviceNameVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+                searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
+    SearchField(name="serviceDescriptionVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                 searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
 ]
 
@@ -182,9 +183,12 @@ vector_search = VectorSearch(
 semantic_config = SemanticConfiguration(
     name="my-semantic-config",
     prioritized_fields=PrioritizedFields(
-        title_field=SemanticField(field_name="title"),
-        prioritized_keywords_fields=[SemanticField(field_name="category")],
-        prioritized_content_fields=[SemanticField(field_name="content")]
+        title_field=SemanticField(field_name="certification_name"),
+        prioritized_keywords_fields=[SemanticField(field_name="skill_name")],
+        prioritized_content_fields=[
+            [SemanticField(field_name="service_name")],
+            [SemanticField(field_name="service_description")]
+            ]
     )
 )
 

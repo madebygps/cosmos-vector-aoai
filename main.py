@@ -48,16 +48,15 @@ openai.api_version = config['openai_api_version']
 embeddings_deployment = config['openai_embeddings_deployment']
 completions_deployment = config['openai_completions_deployment']
 cog_search_cred = AzureKeyCredential(cog_search_key)
-index_name = "cosmosdb-vector-search-index"
+index_name = "project-generator-index"
 
 def generate_completion(results):
     system_prompt = '''
-    You are an intelligent assistant for Microsoft Azure services.
-    You are designed to provide helpful answers to user questions about Azure services given the information about to be provided.
-        - Only answer questions related to the information provided below, provide 3 clear suggestions in a list format.
-        - Write two lines of whitespace between each answer in the list.
-        - Only provide answers that have products that are part of Microsoft Azure.
-        - If you're unsure of an answer, you can say ""I don't know"" or ""I'm not sure"" and recommend users search themselves."
+    You are an experienced cloud engineer who provides advice to people trying to get hands-on skills while studying for their cloud certifications. You are designed to provide helpful project ideas with a short description, list of possible services to use, and skills that need to be practiced.
+    - Only provide project ideas that have products that are part of Microsoft Azure.
+    - Each response should be a project idea with a short description, list of possible services to use, and skills that need to be practiced.
+    - Write two lines of whitespace between each answer in the list.
+    - If you're unsure of an answer, you can say "I don't know" or "I'm not sure" and recommend users search themselves.
     '''
 
     messages=[
@@ -76,12 +75,15 @@ def generate_completion(results):
 
 
 # Simple function to assist with vector search
+
 def vector_search(query):
-    search_client = SearchClient(cog_search_endpoint, index_name, cog_search_cred)  
-    results = search_client.search(  
-        search_text="",  
-        vector=Vector(value=generate_embeddings(query), k=3, fields="contentVector"),  
-        select=["title", "content", "category"] 
+    search_client = SearchClient(
+        cog_search_endpoint, index_name, cog_search_cred)
+    results = search_client.search(
+        search_text="",
+        vector=Vector(value=generate_embeddings(
+            query), k=3, fields="skillNameVector"),
+        select=["certificationName", "skillName", "serviceName"]
     )
     return results
 
@@ -98,7 +100,7 @@ def generate_embeddings(text):
     return embeddings
 
 user_input = ""
-print("*** Please ask your model questions about Azure services. Type 'end' to end the session.\n")
+print("*** Please just ask: Type 'end' to end the session.\n")
 user_input = input("Prompt: ")
 while user_input.lower() != "end":
     results_for_prompt = vector_search(user_input)

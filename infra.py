@@ -50,7 +50,7 @@ embeddings_deployment = config['openai_embeddings_deployment']
 completions_deployment = config['openai_completions_deployment']
 
 # Load certifications.json data file
-certification_data_file = open(file="certs_w_services.json", mode="r")
+certification_data_file = open(file="certifications.json", mode="r")
 # data_file = open(file="../../DataSet/AzureServices/text-sample_w_embeddings.json", mode="r") # load this file instead if embeddings were previously created and saved.
 certification_data = json.load(certification_data_file)
 certification_data_file.close()
@@ -69,71 +69,63 @@ def generate_embeddings(text):
     return embeddings
 
 
-# Generate embeddings for each certification name, skill name, and service description
-# Generate embeddings for each certification name, skill name, and service description
-for certification in certification_data['certifications']:
-    certification_name = certification['certification_name']
-    certification_name_embeddings = generate_embeddings(certification_name)
-    certification['certificationNameVector'] = certification_name_embeddings
-    certification_skills = certification['skills']
-    for certification_skill in certification_skills:
-        skill_name = certification_skill['skill_name']
-        skill_name_embeddings = generate_embeddings(skill_name)
-        certification_skill['skillNameVector'] = skill_name_embeddings
-        skill_services = certification_skill['services']
-        for skill_service in skill_services:
-            service_name = skill_service['service_name']
-            service_name_embeddings = generate_embeddings(service_name)
-            skill_service['serviceNameVector'] = service_name_embeddings
-            service_description = skill_service['service_description']
-            service_description_embeddings = generate_embeddings(
-                service_description)
-            skill_service['serviceDescriptionVector'] = service_description_embeddings
+# # Generate embeddings for each certification name, skill name, and service description
+# for certification in certification_data['certifications']:
+#     certification_name = certification['certification_name']
+#     certification_name_embeddings = generate_embeddings(certification_name)
+#     certification['certificationNameVector'] = certification_name_embeddings
+#     certification_skills = certification['skills']
+#     for certification_skill in certification_skills:
+#         skill_name = certification_skill['skill_name']
+#         skill_name_embeddings = generate_embeddings(skill_name)
+#         certification_skill['skillNameVector'] = skill_name_embeddings
+#         skill_services = certification_skill['services']
+#         for skill_service in skill_services:
+#             service_name = skill_service['service_name']
+#             service_name_embeddings = generate_embeddings(service_name)
+#             skill_service['serviceNameVector'] = service_name_embeddings
+#             service_description = skill_service['service_description']
+#             service_description_embeddings = generate_embeddings(
+#                 service_description)
+#             skill_service['serviceDescriptionVector'] = service_description_embeddings
 
-    certification['@search.action'] = 'upload'
+#     certification['@search.action'] = 'upload'
 
 
-# Save embeddings to sample_text_w_embeddings.json file
-with open("certs_w_embeddings_services.json", "w") as f:
-    json.dump(certification_data, f)
+# # Save embeddings to sample_text_w_embeddings.json file
+# with open("certs_w_embeddings_services.json", "w") as f:
+#     json.dump(certification_data, f)
 
-# Create the client to interact with the Azure Cosmos DB resource
-client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
+# # Create the client to interact with the Azure Cosmos DB resource
+# client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
 
-# Create a database in Azure Cosmos DB.
-try:
-    database = client.create_database_if_not_exists(id="CertificationData")
-    print(f"Database created: {database.id}")
+# # Create a database in Azure Cosmos DB.
+# try:
+#     database = client.create_database_if_not_exists(id="CertificationData")
+#     print(f"Database created: {database.id}")
 
-except exceptions.CosmosResourceExistsError:
-    print("Database already exists.")
+# except exceptions.CosmosResourceExistsError:
+#     print("Database already exists.")
 
-# Create a container in Azure Cosmos DB.
-try:
-    partition_key_path = PartitionKey(path="/id")
-    container = database.create_container_if_not_exists(
-        id="Certifications",
-        partition_key=partition_key_path
-    )
-    print(f"Container created: {container.id}")
+# # Create a container in Azure Cosmos DB.
+# try:
+#     partition_key_path = PartitionKey(path="/id")
+#     container = database.create_container_if_not_exists(
+#         id="Certifications",
+#         partition_key=partition_key_path
+#     )
+#     print(f"Container created: {container.id}")
 
-except exceptions.CosmosResourceExistsError:
-    print("Container already exists.")
+# except exceptions.CosmosResourceExistsError:
+#     print("Container already exists.")
 
-# Create data items for every entry in the dataset, insert them into the database and collection specified above.
-for certification_data_item in certification_data:
-    try:
-        container.create_item(body=certification_data_item)
+# # Create data items for every entry in the dataset, insert them into the database and collection specified above.
+# for certification_data_item in certification_data['certifications']:
+#     try:
+#         container.create_item(body=certification_data_item)
 
-    except exceptions.CosmosResourceExistsError:
-        print("Data item already exists.")
-
-for certification_data_item in certification_data:
-    try:
-        container.create_item(body=certification_data_item)
-
-    except exceptions.CosmosResourceExistsError:
-        print("Data item already exists.")
+#     except exceptions.CosmosResourceExistsError:
+#         print("Data item already exists.")
 
 # Create index
 
@@ -145,13 +137,13 @@ index_client = SearchIndexClient(
     endpoint=cog_search_endpoint, credential=cog_search_cred)
 fields = [
     SimpleField(name="id", type=SearchFieldDataType.String, key=True),
-    SearchableField(name="certification_name", type=SearchFieldDataType.String,
+    SearchableField(name="certificationName", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    SearchableField(name="skill_name", type=SearchFieldDataType.String,
+    SearchableField(name="skillName", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    SearchableField(name="service_name", type=SearchFieldDataType.String,
+    SearchableField(name="serviceName", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    SearchableField(name="service_description", type=SearchFieldDataType.String,
+    SearchableField(name="serviceDescription", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
     SearchField(name="certificationNameVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                 searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
@@ -162,6 +154,7 @@ fields = [
     SearchField(name="serviceDescriptionVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                 searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
 ]
+
 
 # Configure vector search
 vector_search = VectorSearch(
@@ -183,12 +176,12 @@ vector_search = VectorSearch(
 semantic_config = SemanticConfiguration(
     name="my-semantic-config",
     prioritized_fields=PrioritizedFields(
-        title_field=SemanticField(field_name="certification_name"),
-        prioritized_keywords_fields=[SemanticField(field_name="skill_name")],
+        title_field=SemanticField(field_name="certificationName"),
+        prioritized_keywords_fields=[SemanticField(field_name="skillName")],
         prioritized_content_fields=[
-            [SemanticField(field_name="service_name")],
-            [SemanticField(field_name="service_description")]
-            ]
+            SemanticField(field_name="serviceName"),
+            SemanticField(field_name="serviceDescription")
+        ]
     )
 )
 
@@ -207,9 +200,9 @@ print(f' {result.name} created')
 def _create_datasource():
     # Here we create a datasource.
     ds_client = SearchIndexerClient(cog_search_endpoint, cog_search_cred)
-    container = SearchIndexerDataContainer(name="AzureServices")
+    container = SearchIndexerDataContainer(name="Certifications")
     data_source_connection = SearchIndexerDataSourceConnection(
-        name="cosmosdb-tutorial-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=VectorSearchTutorial"), container=container
+        name="cosmosdb-tutorial-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=CertificationData"), container=container
     )
     data_source = ds_client.create_or_update_data_source_connection(
         data_source_connection)
@@ -219,15 +212,15 @@ def _create_datasource():
 ds_name = _create_datasource().name
 
 indexer = SearchIndexer(
-    name="cosmosdb-tutorial-indexer",
+    name="project-generator-indexer",
     data_source_name=ds_name,
     target_index_name=index_name)
 
 indexer_client = SearchIndexerClient(cog_search_endpoint, cog_search_cred)
 indexer_client.create_or_update_indexer(indexer)  # create the indexer
 
-result = indexer_client.get_indexer("cosmosdb-tutorial-indexer")
-print(result)
+result = indexer_client.get_indexer("project-generator-indexer")
+print(f"{result.name} created")
 
 # Run the indexer we just created.
 indexer_client.run_indexer(result.name)
@@ -241,16 +234,12 @@ def vector_search(query):
     results = search_client.search(
         search_text="",
         vector=Vector(value=generate_embeddings(
-            query), k=3, fields="contentVector"),
-        select=["title", "content", "category"]
+            query), k=3, fields="skillNameVector"),
+        select=["certificationName", "skillName", "serviceName"]
     )
     return results
 
 
-query = "tools for software development"
+query = "What project should I build to improve my skills for AZ204?"
 results = vector_search(query)
-for result in results:
-    print(f"Title: {result['title']}")
-    print(f"Score: {result['@search.score']}")
-    print(f"Content: {result['content']}")
-    print(f"Category: {result['category']}\n")
+print(results)

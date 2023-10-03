@@ -5,7 +5,7 @@
             "studyguide_url": "https://learn.microsoft.com/credentials/certifications/resources/study-guides/az-204",
             "date_measured": "October 18, 2023",
             "audience_profile": {
-                "description": "As a candidate for this exam, you’re responsible for participating in all phases of development, from requirements gathering to monitoring. You should have proficiency in various Azure aspects and work alongside various professionals.",
+                "description": "As a candidate for this exam, you\u2019re responsible for participating in all phases of development, from requirements gathering to monitoring. You should have proficiency in various Azure aspects and work alongside various professionals.",
                 "proficiency_requirements": [
                     "SDK",
                     "Data storage options",
@@ -31,13 +31,28 @@
             "skills": [
                 {
                     "skill_name": "Develop Azure compute solutions",
-                    "percentage": "25–30%",
+                    "percentage": "25-30%",
                     "services": [
-                        "Azure Container Registry",
-                        "Azure Container Instance",
-                        "Azure Container Apps",
-                        "Azure App Service Web App",
-                        "Azure Functions"
+                        {
+                            "service_name": "Azure Container Registry",
+                            "service_description": "Azure Container Registry is a fully managed, private Docker registry service that enables you to store and manage your container images and artifacts in Azure. It provides features like geo-replication, webhooks, and integration with Azure Active Directory. Container Registry supports various container formats, such as Docker and Open Container Initiative (OCI). You can use Azure Container Registry to build and deploy your containerized applications, ensure the security of your images, and automate your container lifecycle. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure DevOps."
+                        },
+                        {
+                            "service_name": "Azure Container Instance",
+                            "service_description": "Azure Container Registry is a fully managed, private Docker registry service that enables you to store and manage your container images and artifacts in Azure. It provides features like geo-replication, webhooks, and integration with Azure Active Directory. Container Registry supports various container formats, such as Docker and Open Container Initiative (OCI). You can use Azure Container Registry to build and deploy your containerized applications, ensure the security of your images, and automate your container lifecycle. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure DevOps."
+                        },
+                        {
+                            "service_name": "Azure Container Apps",
+                            "service_description": "Azure Container Registry is a fully managed, private Docker registry service that enables you to store and manage your container images and artifacts in Azure. It provides features like geo-replication, webhooks, and integration with Azure Active Directory. Container Registry supports various container formats, such as Docker and Open Container Initiative (OCI). You can use Azure Container Registry to build and deploy your containerized applications, ensure the security of your images, and automate your container lifecycle. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure DevOps."
+                        },
+                        {
+                            "service_name": "Azure App Service Web App",
+                            "service_description": "Azure Container Registry is a fully managed, private Docker registry service that enables you to store and manage your container images and artifacts in Azure. It provides features like geo-replication, webhooks, and integration with Azure Active Directory. Container Registry supports various container formats, such as Docker and Open Container Initiative (OCI). You can use Azure Container Registry to build and deploy your containerized applications, ensure the security of your images, and automate your container lifecycle. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure DevOps."
+                        },
+                        {
+                            "service_name": "Azure Functions",
+                            "service_description": "Azure Functions is a serverless compute service that enables you to run code on-demand without having to manage infrastructure. It allows you to build and deploy event-driven applications that automatically scale with your workload. Functions support various languages, including C#, F#, Node.js, Python, and Java. It offers a variety of triggers and bindings to integrate with other Azure services and external services. You only pay for the compute time you consume."
+                        }
                     ],
                     "sub_skills": [
                         "Implement containerized solutions: Create and manage container images, Publish an image to Azure Container Registry, Run containers using Azure Container Instance, Create solutions using Azure Container Apps",
@@ -47,10 +62,16 @@
                 },
                 {
                     "skill_name": "Develop for Azure storage",
-                    "percentage": "15–20%",
+                    "percentage": "15-20%",
                     "services": [
-                        "Azure Cosmos DB",
-                        "Azure Blob Storage"
+                        {
+                            "service_name": "Azure Cosmos DB",
+                            "service_description": "Azure Cosmos DB is a fully managed, globally distributed, multi-model database service designed for building highly responsive and scalable applications. It offers turnkey global distribution, automatic and instant scalability, and guarantees low latency, high availability, and consistency. Cosmos DB supports popular NoSQL APIs, including MongoDB, Cassandra, Gremlin, and Azure Table Storage. You can build globally distributed applications with ease, without having to deal with complex configuration and capacity planning. Data stored in Cosmos DB is automatically indexed, enabling you to query your data with SQL, JavaScript, or other supported query languages."
+                        },
+                        {
+                            "service_name": "Azure Blob Storage",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        }
                     ],
                     "sub_skills": [
                         "Develop solutions using Azure Cosmos DB: Perform operations on containers and items, Set consistency level, Implement change feed notifications",
@@ -59,13 +80,28 @@
                 },
                 {
                     "skill_name": "Implement Azure security",
-                    "percentage": "20–25%",
+                    "percentage": "20-25%",
                     "services": [
-                        "Microsoft Identity platform",
-                        "Microsoft Entra ID",
-                        "Microsoft Graph",
-                        "App Configuration",
-                        "Azure Key Vault"
+                        {
+                            "service_name": "Microsoft Identity platform",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        },
+                        {
+                            "service_name": "Microsoft Entra ID",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        },
+                        {
+                            "service_name": "Microsoft Graph",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        },
+                        {
+                            "service_name": "App Configuration",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        },
+                        {
+                            "service_name": "Azure Key Vault",
+                            "service_description": "Azure Key Vault is a cloud-based service for securely storing and managing secrets, keys, and certificates. It provides features like access control, auditing, and secure storage. Key Vault supports various types of secrets, such as connection strings, passwords, and API keys. You can use Key Vault to secure your applications, protect your sensitive data, and manage your cryptographic keys. It also integrates with other Azure services, such as Azure Virtual Machines and Azure App Service."
+                        }
                     ],
                     "sub_skills": [
                         "Implement user authentication and authorization: Authenticate and authorize users using Microsoft Identity, Authenticate and authorize users and apps using Microsoft Entra ID, Create shared access signatures, Interact with Microsoft Graph",
@@ -74,11 +110,20 @@
                 },
                 {
                     "skill_name": "Monitor, troubleshoot, and optimize Azure solutions",
-                    "percentage": "15–20%",
+                    "percentage": "15-20%",
                     "services": [
-                        "Azure Cache for Redis",
-                        "Azure Content Delivery Network",
-                        "Application Insights"
+                        {
+                            "service_name": "Azure Cache for Redis",
+                            "service_description": "Azure Cache for Redis is a fully managed, in-memory data store that enables you to build highly responsive and scalable applications. It provides features like data persistence, high availability, and automatic scaling. Cache for Redis supports various data structures, such as strings, lists, sets, and hashes. You can use Azure Cache for Redis to improve the performance of your applications, offload your databases, and reduce the latency of your data access. It also integrates with other Azure services, such as Azure App Service and Azure Kubernetes Service."
+                        },
+                        {
+                            "service_name": "Azure Content Delivery Network",
+                            "service_description": "Azure Cache for Redis is a fully managed, in-memory data store that enables you to build highly responsive and scalable applications. It provides features like data persistence, high availability, and automatic scaling. Cache for Redis supports various data structures, such as strings, lists, sets, and hashes. You can use Azure Cache for Redis to improve the performance of your applications, offload your databases, and reduce the latency of your data access. It also integrates with other Azure services, such as Azure App Service and Azure Kubernetes Service."
+                        },
+                        {
+                            "service_name": "Application Insights",
+                            "service_description": "Azure Cache for Redis is a fully managed, in-memory data store that enables you to build highly responsive and scalable applications. It provides features like data persistence, high availability, and automatic scaling. Cache for Redis supports various data structures, such as strings, lists, sets, and hashes. You can use Azure Cache for Redis to improve the performance of your applications, offload your databases, and reduce the latency of your data access. It also integrates with other Azure services, such as Azure App Service and Azure Kubernetes Service."
+                        }
                     ],
                     "sub_skills": [
                         "Implement caching: Configure Azure Cache for Redis, Implement application cache patterns, Implement Azure Content Delivery Network",
@@ -87,13 +132,28 @@
                 },
                 {
                     "skill_name": "Connect to and consume Azure and third-party services",
-                    "percentage": "15–20%",
+                    "percentage": "15-20%",
                     "services": [
-                        "Azure API Management",
-                        "Azure Event Grid",
-                        "Azure Event Hub",
-                        "Azure Service Bus",
-                        "Azure Queue Storage"
+                        {
+                            "service_name": "Azure API Management",
+                            "service_description": "Azure API Management is a fully managed service that helps you create, publish, and manage APIs for your applications. It provides features like API documentation, developer portal, access control, and caching. API Management supports various API formats, including REST, SOAP, and GraphQL. You can use API Management to secure your APIs with authentication, authorization, and IP filtering. It also offers built-in analytics and monitoring, allowing you to track the usage and performance of your APIs."
+                        },
+                        {
+                            "service_name": "Azure Event Grid",
+                            "service_description": "Azure Event Grid is a fully managed, event-routing service that enables you to build event-driven and serverless applications. It provides features like event filtering, custom event topics, and integration with Azure Functions. Event Grid supports various event sources, such as Azure Blob Storage, Azure Event Hubs, and custom applications. You can use Azure Event Grid to build reactive applications, integrate with other Azure services, and process and route events at scale. It also integrates with other Azure services, such as Azure Logic Apps and Azure Service Bus."
+                        },
+                        {
+                            "service_name": "Azure Event Hub",
+                            "service_description": "Azure Event Grid is a fully managed, event-routing service that enables you to build event-driven and serverless applications. It provides features like event filtering, custom event topics, and integration with Azure Functions. Event Grid supports various event sources, such as Azure Blob Storage, Azure Event Hubs, and custom applications. You can use Azure Event Grid to build reactive applications, integrate with other Azure services, and process and route events at scale. It also integrates with other Azure services, such as Azure Logic Apps and Azure Service Bus."
+                        },
+                        {
+                            "service_name": "Azure Service Bus",
+                            "service_description": "Azure Service Bus is a fully managed, enterprise-grade messaging service that enables you to build reliable and scalable applications. It provides features like message queuing, publish-subscribe, and dead-lettering. Service Bus supports various messaging patterns, including point-to-point, broadcast, and request-reply. You can use Service Bus to integrate your applications and services, decouple your system components, and handle asynchronous communication. It also integrates with other Azure services, such as Azure Functions and Azure Logic Apps."
+                        },
+                        {
+                            "service_name": "Azure Queue Storage",
+                            "service_description": "Azure Queue Storage is a fully managed, scalable, and durable message queuing service that enables you to decouple your applications and build asynchronous solutions. It provides features like at-least-once delivery, message time-to-live, and a RESTful API. Queue Storage supports various programming languages, such as C#, Java, and Python. You can use Azure Queue Storage to build distributed applications, offload your databases, and process and store large volumes of messages. It also integrates with other Azure services, such as Azure Functions and Azure Logic Apps."
+                        }
                     ],
                     "sub_skills": [
                         "Implement API Management: Create an API Management instance, Document APIs, Configure access to APIs, Implement API policies",
@@ -101,14 +161,15 @@
                         "Develop message-based solutions: Implement solutions using Azure Service Bus, Implement solutions using Azure Queue Storage queues"
                     ]
                 }
-            ]
+            ],
+            "id": "597a6b37-c80a-4404-96bf-166a3b67e828"
         },
         {
             "certification_name": "AZ-104: Microsoft Azure Administrator",
             "studyguide_url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104",
             "date_measured": "July 28, 2023",
             "audience_profile": {
-                "description": "Candidates for this exam should have subject matter expertise in implementing, managing, and monitoring an organization’s Microsoft Azure environment, including virtual networks, storage, compute, identity, security, and governance.",
+                "description": "Candidates for this exam should have subject matter expertise in implementing, managing, and monitoring an organization\u2019s Microsoft Azure environment, including virtual networks, storage, compute, identity, security, and governance.",
                 "proficiency_requirements": [
                     "Operating systems",
                     "Networking",
@@ -133,12 +194,24 @@
             "skills": [
                 {
                     "skill_name": "Manage Azure identities and governance",
-                    "percentage": "20–25%",
+                    "percentage": "20-25%",
                     "services": [
-                        "Azure AD",
-                        "Azure Policy",
-                        "Azure Advisor",
-                        "Azure Management Groups"
+                        {
+                            "service_name": "Azure AD",
+                            "service_description": "Azure Queue Storage is a fully managed, scalable, and durable message queuing service that enables you to decouple your applications and build asynchronous solutions. It provides features like at-least-once delivery, message time-to-live, and a RESTful API. Queue Storage supports various programming languages, such as C#, Java, and Python. You can use Azure Queue Storage to build distributed applications, offload your databases, and process and store large volumes of messages. It also integrates with other Azure services, such as Azure Functions and Azure Logic Apps."
+                        },
+                        {
+                            "service_name": "Azure Policy",
+                            "service_description": "Azure Policy is a governance service that enables you to define, enforce, and audit policies across your Azure resources. It provides features like policy assignment, policy evaluation, and compliance reporting. Azure Policy supports various resource types, such as Azure Virtual Machines, Azure Storage, and Azure App Service. You can use Azure Policy to ensure compliance with your organization's standards, prevent non-compliant resources, and automate remediation. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        },
+                        {
+                            "service_name": "Azure Advisor",
+                            "service_description": "Azure Policy is a governance service that enables you to define, enforce, and audit policies across your Azure resources. It provides features like policy assignment, policy evaluation, and compliance reporting. Azure Policy supports various resource types, such as Azure Virtual Machines, Azure Storage, and Azure App Service. You can use Azure Policy to ensure compliance with your organization's standards, prevent non-compliant resources, and automate remediation. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        },
+                        {
+                            "service_name": "Azure Management Groups",
+                            "service_description": "Azure Policy is a governance service that enables you to define, enforce, and audit policies across your Azure resources. It provides features like policy assignment, policy evaluation, and compliance reporting. Azure Policy supports various resource types, such as Azure Virtual Machines, Azure Storage, and Azure App Service. You can use Azure Policy to ensure compliance with your organization's standards, prevent non-compliant resources, and automate remediation. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        }
                     ],
                     "sub_skills": [
                         "Manage Azure AD users and groups: Create users and groups, Manage user and group properties, Manage licenses in Azure AD, Manage external users, Configure SSPR",
@@ -148,13 +221,28 @@
                 },
                 {
                     "skill_name": "Implement and manage storage",
-                    "percentage": "15–20%",
+                    "percentage": "15-20%",
                     "services": [
-                        "Azure Storage",
-                        "Azure Storage Explorer",
-                        "AzCopy",
-                        "Azure Files",
-                        "Azure Blob Storage"
+                        {
+                            "service_name": "Azure Storage",
+                            "service_description": "Azure Storage is a scalable, durable, and highly available cloud storage service that supports a variety of data types, including blobs, files, queues, and tables. It provides a massively scalable object store for unstructured data. Storage supports data redundancy and geo-replication, ensuring high durability and availability. It offers a variety of data access and management options, including REST APIs, SDKs, and Azure Portal. You can secure your data using encryption at rest and in transit."
+                        },
+                        {
+                            "service_name": "Azure Storage Explorer",
+                            "service_description": "Azure Storage is a scalable, durable, and highly available cloud storage service that supports a variety of data types, including blobs, files, queues, and tables. It provides a massively scalable object store for unstructured data. Storage supports data redundancy and geo-replication, ensuring high durability and availability. It offers a variety of data access and management options, including REST APIs, SDKs, and Azure Portal. You can secure your data using encryption at rest and in transit."
+                        },
+                        {
+                            "service_name": "AzCopy",
+                            "service_description": "Azure Storage is a scalable, durable, and highly available cloud storage service that supports a variety of data types, including blobs, files, queues, and tables. It provides a massively scalable object store for unstructured data. Storage supports data redundancy and geo-replication, ensuring high durability and availability. It offers a variety of data access and management options, including REST APIs, SDKs, and Azure Portal. You can secure your data using encryption at rest and in transit."
+                        },
+                        {
+                            "service_name": "Azure Files",
+                            "service_description": "Azure Storage is a scalable, durable, and highly available cloud storage service that supports a variety of data types, including blobs, files, queues, and tables. It provides a massively scalable object store for unstructured data. Storage supports data redundancy and geo-replication, ensuring high durability and availability. It offers a variety of data access and management options, including REST APIs, SDKs, and Azure Portal. You can secure your data using encryption at rest and in transit."
+                        },
+                        {
+                            "service_name": "Azure Blob Storage",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        }
                     ],
                     "sub_skills": [
                         "Configure access to storage: Configure Azure Storage firewalls and VNETs, Create and use SAS tokens, Configure stored access policies, Manage access keys, Configure identity-based access for Azure Files",
@@ -164,15 +252,36 @@
                 },
                 {
                     "skill_name": "Deploy and manage Azure compute resources",
-                    "percentage": "20–25%",
+                    "percentage": "20-25%",
                     "services": [
-                        "Azure Resource Manager",
-                        "Virtual Machines",
-                        "Azure Virtual Machine Scale Sets",
-                        "Azure Container Registry",
-                        "Azure Container Instances",
-                        "Azure Container Apps",
-                        "Azure App Service"
+                        {
+                            "service_name": "Azure Resource Manager",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        },
+                        {
+                            "service_name": "Virtual Machines",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        },
+                        {
+                            "service_name": "Azure Virtual Machine Scale Sets",
+                            "service_description": "Azure Blob Storage is a scalable, durable, and high-performance object storage service for unstructured data. It provides features like data redundancy, geo-replication, and fine-grained access control. Blob Storage supports various data types, such as images, documents, and videos. You can use Blob Storage to store and manage your data, build data lakes, and develop big data analytics solutions. It also integrates with other Azure services, such as Azure CDN, Azure Functions, and Azure Machine Learning."
+                        },
+                        {
+                            "service_name": "Azure Container Registry",
+                            "service_description": "Azure Container Registry is a fully managed, private Docker registry service that enables you to store and manage your container images and artifacts in Azure. It provides features like geo-replication, webhooks, and integration with Azure Active Directory. Container Registry supports various container formats, such as Docker and Open Container Initiative (OCI). You can use Azure Container Registry to build and deploy your containerized applications, ensure the security of your images, and automate your container lifecycle. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure DevOps."
+                        },
+                        {
+                            "service_name": "Azure Container Instances",
+                            "service_description": "Azure Container Instances (ACI) is a serverless container runtime that enables you to run and scale your containerized applications in Azure without managing the underlying infrastructure. It provides features like automatic scaling, custom domains, and integration with Azure Logic Apps. ACI supports various container runtimes, such as Docker and containerd. You can use Azure Container Instances to build microservices, modernize your existing applications, and ensure high availability and scalability. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure Functions."
+                        },
+                        {
+                            "service_name": "Azure Container Apps",
+                            "service_description": "Azure Container Instances (ACI) is a serverless container runtime that enables you to run and scale your containerized applications in Azure without managing the underlying infrastructure. It provides features like automatic scaling, custom domains, and integration with Azure Logic Apps. ACI supports various container runtimes, such as Docker and containerd. You can use Azure Container Instances to build microservices, modernize your existing applications, and ensure high availability and scalability. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure Functions."
+                        },
+                        {
+                            "service_name": "Azure App Service",
+                            "service_description": "Azure App Service is a fully managed platform for building, deploying, and scaling web apps. You can host web apps, mobile app backends, and RESTful APIs. It supports a variety of programming languages and frameworks, such as .NET, Java, Node.js, Python, and PHP. The service offers built-in auto-scaling and load balancing capabilities. It also provides integration with other Azure services, such as Azure DevOps, GitHub, and Bitbucket."
+                        }
                     ],
                     "sub_skills": [
                         "Automate deployment of resources using ARM templates or Bicep files: Interpret, Modify, Deploy, Export a deployment as an ARM template or compile as a Bicep file",
@@ -183,13 +292,28 @@
                 },
                 {
                     "skill_name": "Implement and manage virtual networking",
-                    "percentage": "15–20%",
+                    "percentage": "15-20%",
                     "services": [
-                        "Azure Virtual Networks",
-                        "Azure DNS",
-                        "Azure Load Balancer",
-                        "Azure Bastion",
-                        "Azure PaaS"
+                        {
+                            "service_name": "Azure Virtual Networks",
+                            "service_description": "Azure App Service is a fully managed platform for building, deploying, and scaling web apps. You can host web apps, mobile app backends, and RESTful APIs. It supports a variety of programming languages and frameworks, such as .NET, Java, Node.js, Python, and PHP. The service offers built-in auto-scaling and load balancing capabilities. It also provides integration with other Azure services, such as Azure DevOps, GitHub, and Bitbucket."
+                        },
+                        {
+                            "service_name": "Azure DNS",
+                            "service_description": "Azure App Service is a fully managed platform for building, deploying, and scaling web apps. You can host web apps, mobile app backends, and RESTful APIs. It supports a variety of programming languages and frameworks, such as .NET, Java, Node.js, Python, and PHP. The service offers built-in auto-scaling and load balancing capabilities. It also provides integration with other Azure services, such as Azure DevOps, GitHub, and Bitbucket."
+                        },
+                        {
+                            "service_name": "Azure Load Balancer",
+                            "service_description": "Azure App Service is a fully managed platform for building, deploying, and scaling web apps. You can host web apps, mobile app backends, and RESTful APIs. It supports a variety of programming languages and frameworks, such as .NET, Java, Node.js, Python, and PHP. The service offers built-in auto-scaling and load balancing capabilities. It also provides integration with other Azure services, such as Azure DevOps, GitHub, and Bitbucket."
+                        },
+                        {
+                            "service_name": "Azure Bastion",
+                            "service_description": "Azure Bastion is a fully managed, secure, and scalable service that provides remote access to your virtual machines. It provides features like private connectivity, secure RDP/SSH sessions, and browser-based access. Bastion supports various Azure services, such as Azure Virtual Machines, Azure Virtual Network, and Azure Active Directory. You can use Azure Bastion to securely access your virtual machines, minimize your attack surface, and improve the security of your infrastructure. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        },
+                        {
+                            "service_name": "Azure PaaS",
+                            "service_description": "Azure Bastion is a fully managed, secure, and scalable service that provides remote access to your virtual machines. It provides features like private connectivity, secure RDP/SSH sessions, and browser-based access. Bastion supports various Azure services, such as Azure Virtual Machines, Azure Virtual Network, and Azure Active Directory. You can use Azure Bastion to securely access your virtual machines, minimize your attack surface, and improve the security of your infrastructure. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        }
                     ],
                     "sub_skills": [
                         "Configure and manage virtual networks: Create and configure networks and subnets, Configure peering, Configure public IPs, Configure user-defined routes, Troubleshoot network connectivity",
@@ -199,20 +323,36 @@
                 },
                 {
                     "skill_name": "Monitor and maintain Azure resources",
-                    "percentage": "10–15%",
+                    "percentage": "10-15%",
                     "services": [
-                        "Azure Monitor",
-                        "Azure Network Watcher",
-                        "Azure Recovery Services",
-                        "Azure Backup",
-                        "Azure Site Recovery"
+                        {
+                            "service_name": "Azure Monitor",
+                            "service_description": "Azure Monitor is a comprehensive, full-stack monitoring service that enables you to collect, analyze, and act on telemetry data from your applications and infrastructure. It provides features like log analytics, metrics, alerts, and dashboards. Azure Monitor supports various data sources, such as Azure resources, custom applications, and operating systems. You can use Azure Monitor to detect and diagnose issues, optimize your performance, and ensure the availability of your resources. It also integrates with other Azure services, such as Azure Log Analytics and Azure Application Insights."
+                        },
+                        {
+                            "service_name": "Azure Network Watcher",
+                            "service_description": "Azure Monitor is a comprehensive, full-stack monitoring service that enables you to collect, analyze, and act on telemetry data from your applications and infrastructure. It provides features like log analytics, metrics, alerts, and dashboards. Azure Monitor supports various data sources, such as Azure resources, custom applications, and operating systems. You can use Azure Monitor to detect and diagnose issues, optimize your performance, and ensure the availability of your resources. It also integrates with other Azure services, such as Azure Log Analytics and Azure Application Insights."
+                        },
+                        {
+                            "service_name": "Azure Recovery Services",
+                            "service_description": "Azure Monitor is a comprehensive, full-stack monitoring service that enables you to collect, analyze, and act on telemetry data from your applications and infrastructure. It provides features like log analytics, metrics, alerts, and dashboards. Azure Monitor supports various data sources, such as Azure resources, custom applications, and operating systems. You can use Azure Monitor to detect and diagnose issues, optimize your performance, and ensure the availability of your resources. It also integrates with other Azure services, such as Azure Log Analytics and Azure Application Insights."
+                        },
+                        {
+                            "service_name": "Azure Backup",
+                            "service_description": "Azure Backup is a cloud-based backup service that enables you to protect your data and applications from loss and corruption. It supports various platforms, including Azure, on-premises, and third-party cloud providers. Backup provides features like incremental backups, data encryption, and long-term retention. You can use Azure Backup to meet your data protection requirements, ensure business continuity, and comply with industry regulations. It also integrates with other Azure services, such as Azure Site Recovery and Azure Storage."
+                        },
+                        {
+                            "service_name": "Azure Site Recovery",
+                            "service_description": "Azure Site Recovery is a disaster recovery service that enables you to protect your applications and data by orchestrating replication, failover, and recovery of workloads. It supports various platforms, including Azure, on-premises, and third-party cloud providers. Site Recovery provides features like automated recovery, application consistency, and network integration. You can use Site Recovery to meet your business continuity and disaster recovery requirements, minimize downtime, and ensure compliance with industry regulations. It also integrates with other Azure services, such as Azure Backup and Azure Monitor."
+                        }
                     ],
                     "sub_skills": [
                         "Monitor resources: Interpret metrics in Azure Monitor, Configure log settings, Query and analyze logs, Set up alert rules in Azure Monitor, Configure and interpret monitoring using Azure Monitor Insights, Use Network Watcher and Connection Monitor",
                         "Implement backup and recovery: Create Recovery Services and Backup vaults, Configure backup policies, Perform backup and restore operations, Configure Azure Site Recovery, Perform failover to a secondary region"
                     ]
                 }
-            ]
+            ],
+            "id": "dcb6cd17-1ff9-4140-9115-bd090ab9dd34"
         },
         {
             "certification_name": "AZ-900: Microsoft Azure Fundamentals",
@@ -232,10 +372,8 @@
             "skills": [
                 {
                     "skill_name": "Describe cloud concepts",
-                    "percentage": "25–30%",
-                    "services": [
-                        
-                    ],
+                    "percentage": "25-30%",
+                    "services": [],
                     "sub_skills": [
                         "Define cloud computing",
                         "Define cloud models",
@@ -247,15 +385,36 @@
                 },
                 {
                     "skill_name": "Describe Azure architecture and services",
-                    "percentage": "35–40%",
+                    "percentage": "35-40%",
                     "services": [
-                        "Azure regions",
-                        "Azure datacenters",
-                        "Azure resources",
-                        "Azure virtual networks",
-                        "Azure Storage",
-                        "Azure Active Directory",
-                        "Azure virtual machines"
+                        {
+                            "service_name": "Azure regions",
+                            "service_description": "Azure Site Recovery is a disaster recovery service that enables you to protect your applications and data by orchestrating replication, failover, and recovery of workloads. It supports various platforms, including Azure, on-premises, and third-party cloud providers. Site Recovery provides features like automated recovery, application consistency, and network integration. You can use Site Recovery to meet your business continuity and disaster recovery requirements, minimize downtime, and ensure compliance with industry regulations. It also integrates with other Azure services, such as Azure Backup and Azure Monitor."
+                        },
+                        {
+                            "service_name": "Azure datacenters",
+                            "service_description": "Azure Site Recovery is a disaster recovery service that enables you to protect your applications and data by orchestrating replication, failover, and recovery of workloads. It supports various platforms, including Azure, on-premises, and third-party cloud providers. Site Recovery provides features like automated recovery, application consistency, and network integration. You can use Site Recovery to meet your business continuity and disaster recovery requirements, minimize downtime, and ensure compliance with industry regulations. It also integrates with other Azure services, such as Azure Backup and Azure Monitor."
+                        },
+                        {
+                            "service_name": "Azure resources",
+                            "service_description": "Azure Site Recovery is a disaster recovery service that enables you to protect your applications and data by orchestrating replication, failover, and recovery of workloads. It supports various platforms, including Azure, on-premises, and third-party cloud providers. Site Recovery provides features like automated recovery, application consistency, and network integration. You can use Site Recovery to meet your business continuity and disaster recovery requirements, minimize downtime, and ensure compliance with industry regulations. It also integrates with other Azure services, such as Azure Backup and Azure Monitor."
+                        },
+                        {
+                            "service_name": "Azure virtual networks",
+                            "service_description": "Azure Site Recovery is a disaster recovery service that enables you to protect your applications and data by orchestrating replication, failover, and recovery of workloads. It supports various platforms, including Azure, on-premises, and third-party cloud providers. Site Recovery provides features like automated recovery, application consistency, and network integration. You can use Site Recovery to meet your business continuity and disaster recovery requirements, minimize downtime, and ensure compliance with industry regulations. It also integrates with other Azure services, such as Azure Backup and Azure Monitor."
+                        },
+                        {
+                            "service_name": "Azure Storage",
+                            "service_description": "Azure Storage is a scalable, durable, and highly available cloud storage service that supports a variety of data types, including blobs, files, queues, and tables. It provides a massively scalable object store for unstructured data. Storage supports data redundancy and geo-replication, ensuring high durability and availability. It offers a variety of data access and management options, including REST APIs, SDKs, and Azure Portal. You can secure your data using encryption at rest and in transit."
+                        },
+                        {
+                            "service_name": "Azure Active Directory",
+                            "service_description": "Azure Active Directory (Azure AD) is a cloud-based identity and access management service that helps you manage and secure access to your applications and resources. It provides features like single sign-on (SSO), multi-factor authentication (MFA), and conditional access policies. Azure AD supports integration with on-premises Active Directory, as well as third-party identity providers like Google and Facebook. You can use Azure AD to protect both cloud-based and on-premises applications, and manage access for employees, partners, and customers."
+                        },
+                        {
+                            "service_name": "Azure virtual machines",
+                            "service_description": "Azure Active Directory (Azure AD) is a cloud-based identity and access management service that helps you manage and secure access to your applications and resources. It provides features like single sign-on (SSO), multi-factor authentication (MFA), and conditional access policies. Azure AD supports integration with on-premises Active Directory, as well as third-party identity providers like Google and Facebook. You can use Azure AD to protect both cloud-based and on-premises applications, and manage access for employees, partners, and customers."
+                        }
                     ],
                     "sub_skills": [
                         "Describe Azure regions and datacenters",
@@ -268,13 +427,28 @@
                 },
                 {
                     "skill_name": "Describe Azure management and governance",
-                    "percentage": "30–35%",
+                    "percentage": "30-35%",
                     "services": [
-                        "Azure pricing calculator",
-                        "Azure Policy",
-                        "Azure Arc",
-                        "Azure Cloud Shell",
-                        "Azure Monitor"
+                        {
+                            "service_name": "Azure pricing calculator",
+                            "service_description": "Azure Active Directory (Azure AD) is a cloud-based identity and access management service that helps you manage and secure access to your applications and resources. It provides features like single sign-on (SSO), multi-factor authentication (MFA), and conditional access policies. Azure AD supports integration with on-premises Active Directory, as well as third-party identity providers like Google and Facebook. You can use Azure AD to protect both cloud-based and on-premises applications, and manage access for employees, partners, and customers."
+                        },
+                        {
+                            "service_name": "Azure Policy",
+                            "service_description": "Azure Policy is a governance service that enables you to define, enforce, and audit policies across your Azure resources. It provides features like policy assignment, policy evaluation, and compliance reporting. Azure Policy supports various resource types, such as Azure Virtual Machines, Azure Storage, and Azure App Service. You can use Azure Policy to ensure compliance with your organization's standards, prevent non-compliant resources, and automate remediation. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        },
+                        {
+                            "service_name": "Azure Arc",
+                            "service_description": "Azure Policy is a governance service that enables you to define, enforce, and audit policies across your Azure resources. It provides features like policy assignment, policy evaluation, and compliance reporting. Azure Policy supports various resource types, such as Azure Virtual Machines, Azure Storage, and Azure App Service. You can use Azure Policy to ensure compliance with your organization's standards, prevent non-compliant resources, and automate remediation. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        },
+                        {
+                            "service_name": "Azure Cloud Shell",
+                            "service_description": "Azure Policy is a governance service that enables you to define, enforce, and audit policies across your Azure resources. It provides features like policy assignment, policy evaluation, and compliance reporting. Azure Policy supports various resource types, such as Azure Virtual Machines, Azure Storage, and Azure App Service. You can use Azure Policy to ensure compliance with your organization's standards, prevent non-compliant resources, and automate remediation. It also integrates with other Azure services, such as Azure Monitor and Azure Security Center."
+                        },
+                        {
+                            "service_name": "Azure Monitor",
+                            "service_description": "Azure Monitor is a comprehensive, full-stack monitoring service that enables you to collect, analyze, and act on telemetry data from your applications and infrastructure. It provides features like log analytics, metrics, alerts, and dashboards. Azure Monitor supports various data sources, such as Azure resources, custom applications, and operating systems. You can use Azure Monitor to detect and diagnose issues, optimize your performance, and ensure the availability of your resources. It also integrates with other Azure services, such as Azure Log Analytics and Azure Application Insights."
+                        }
                     ],
                     "sub_skills": [
                         "Describe factors affecting costs in Azure",
@@ -284,7 +458,8 @@
                         "Describe monitoring tools in Azure"
                     ]
                 }
-            ]
+            ],
+            "id": "6b28b101-6c8a-4d7f-a75c-3078b2457913"
         }
     ]
 }

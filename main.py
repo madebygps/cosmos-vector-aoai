@@ -75,15 +75,14 @@ def generate_completion(results):
 
 
 # Simple function to assist with vector search
-
 def vector_search(query):
     search_client = SearchClient(
         cog_search_endpoint, index_name, cog_search_cred)
     results = search_client.search(
         search_text="",
         vector=Vector(value=generate_embeddings(
-            query), k=3, fields="skillNameVector"),
-        select=["certificationName", "skillName", "serviceName"]
+            query), k=3, fields="certificationNameVector"),
+        select=["certificationName", "skillName", "serviceName", "serviceDescription"]
     )
     return results
 

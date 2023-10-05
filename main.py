@@ -65,7 +65,8 @@ def generate_completion(results):
     ]
 
     for item in results:
-        messages.append({"role": "system", "content": results['content']})
+        print(item['certificationName'])
+        messages.append({"role": "system", "content": item['skillName']})
 
     response = openai.ChatCompletion.create(engine=completions_deployment, messages=messages)
     
@@ -75,6 +76,7 @@ def generate_completion(results):
 
 
 # Simple function to assist with vector search
+
 def vector_search(query):
     search_client = SearchClient(
         cog_search_endpoint, index_name, cog_search_cred)
@@ -82,9 +84,11 @@ def vector_search(query):
         search_text="",
         vector=Vector(value=generate_embeddings(
             query), k=3, fields="certificationNameVector"),
-        select=["certificationName", "skillName", "serviceName", "serviceDescription"]
+        select=["certificationName", "skillName", "serviceName"]
     )
+
     return results
+
 
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(10))
 def generate_embeddings(text):

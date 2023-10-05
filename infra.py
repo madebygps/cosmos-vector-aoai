@@ -53,7 +53,7 @@ embeddings_deployment = config['openai_embeddings_deployment']
 completions_deployment = config['openai_completions_deployment']
 
 # Load certifications.json data file
-certification_data_file = open(file="certifications.json", mode="r")
+certification_data_file = open(file="certs_services_id.json", mode="r")
 certification_data = json.load(certification_data_file)
 certification_data_file.close()
 
@@ -72,84 +72,71 @@ def generate_embeddings(text):
     return embeddings
 
 
-# Generate embeddings for each certification name, skill name, service name and service description
+# # Generate embeddings for each certification name, skill name, service name and service description
 
-# for certification in certification_data['certifications']:
-#     certification_name = certification['certification_name']
-#     certification_name_embeddings = generate_embeddings(certification_name)
-#     certification['certificationNameVector'] = certification_name_embeddings
-#     certification_skills = certification['skills']
-#     for certification_skill in certification_skills:
-#         skill_name = certification_skill['skill_name']
-#         skill_name_embeddings = generate_embeddings(skill_name)
-#         certification_skill['skillNameVector'] = skill_name_embeddings
-#         skill_services = certification_skill['services']
-#         for skill_service in skill_services:
-#             service_name = skill_service['service_name']
-#             service_name_embeddings = generate_embeddings(service_name)
-#             skill_service['serviceNameVector'] = service_name_embeddings
-#             service_description = skill_service['service_description']
-#             service_description_embeddings = generate_embeddings(
-#                 service_description)
-#             skill_service['serviceDescriptionVector'] = service_description_embeddings
+for certification in certification_data:
+    certification_name = certification['certification_name']
+    certification_name_embeddings = generate_embeddings(certification_name)
+    certification['certificationNameVector'] = certification_name_embeddings
+    certification_service = certification['service_name']
+    certification_service_embeddings = generate_embeddings(
+        certification_service)
+    certification['certificationServiceVector'] = certification_service_embeddings
+    # this will be used by Azure Cognitive Search to mark each certification to be uploaded to the index so it can be searched
+    certification['@search.action'] = 'upload'
 
-#     certification['@search.action'] = 'upload' # this will be used by Azure Cognitive Search to mark each certification to be uploaded to the index so it can be searched
-    
 
 # # Save embeddings to new file
-# with open("certs_w_embeddings_services.json", "w") as f:
-#     json.dump(certification_data, f)
+with open("certs_embeddings.json", "w") as f:
+    json.dump(certification_data, f)
 
 # Create the client to interact with the Azure Cosmos DB resource
-# client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
+client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
 
-# # Create a database in Azure Cosmos DB.
-# try:
-#     database = client.create_database_if_not_exists(id="CertificationData")
-#     print(f"Database created: {database.id}")
+# Create a database in Azure Cosmos DB.
+try:
+    database = client.create_database_if_not_exists(id="CertificationData")
+    print(f"Database created: {database.id}")
 
-# except exceptions.CosmosResourceExistsError:
-#     print("Database already exists.")
+except exceptions.CosmosResourceExistsError:
+    print("Database already exists.")
 
-# # Create a container in Azure Cosmos DB.
-# try:
-#     partition_key_path = PartitionKey(path="/id")
-#     container = database.create_container_if_not_exists(
-#         id="Certifications",
-#         partition_key=partition_key_path
-#     )
-#     print(f"Container created: {container.id}")
+# Create a container in Azure Cosmos DB.
+try:
+    partition_key_path = PartitionKey(path="/id")
+    container = database.create_container_if_not_exists(
+        id="Certifications",
+        partition_key=partition_key_path
+    )
+    print(f"Container created: {container.id}")
 
-# except exceptions.CosmosResourceExistsError:
-#     print("Container already exists.")
+except exceptions.CosmosResourceExistsError:
+    print("Container already exists.")
 
-# # Upload each certification to the cosmos db container
-# for certification_data_item in certification_data['certifications']:
-#     try:
-#         container.create_item(body=certification_data_item)
+# Upload each certification to the cosmos db container
+for certification_data_item in certification_data:
+    try:
+        container.create_item(body=certification_data_item)
 
-#     except exceptions.CosmosResourceExistsError:
-#         print("Data item already exists.")
+    except exceptions.CosmosResourceExistsError:
+        print("Data item already exists.")
 
 
-# Create a search index and define the schema (names, types, and parameters)
-# A search index is like a database of searchable content.
+# # Create a search index and define the schema (names, types, and parameters)
+# # A search index is like a database of searchable content.
 index_client = SearchIndexClient(
     endpoint=cog_search_endpoint, credential=cog_search_cred)
 fields = [
     SimpleField(name="id", type=SearchFieldDataType.String, key=True),
     SearchableField(name="certification_name", type=SearchFieldDataType.String,
                     searchable=True, retrievable=True),
-    ComplexField(name="skills", fields=[
-        SearchableField(name="skill_name", type=SearchFieldDataType.String),
-        SearchField(name="skillNameVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single), searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
-        ComplexField(name="services", fields=[
-            SearchableField(name="service_name", type=SearchFieldDataType.String),
-            SearchableField(name="service_description", type=SearchFieldDataType.String),
-            SearchField(name="serviceNameVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single), searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
-            SearchField(name="serviceDescriptionVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single), searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
-        ])]),
+    SearchableField(name="service_name", type=SearchFieldDataType.String,
+                    searchable=True, retrievable=True),
+    SearchableField(name="category", type=SearchFieldDataType.String,
+                    searchable=True, retrievable=True),
     SearchField(name="certificationNameVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+                searchable=True, dimensions=1536, vector_search_configuration="my-vector-config"),
+    SearchField(name="certificationServiceVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                 searchable=True, dimensions=1536, vector_search_configuration="my-vector-config")
 ]
 
@@ -167,12 +154,12 @@ vector_search = VectorSearch(
     algorithm_configurations=[
         VectorSearchAlgorithmConfiguration(
             name="my-vector-config",
-            kind="hnsw", # hierarchical navigable small world 
+            kind="hnsw",  # hierarchical navigable small world
             hnsw_parameters={
-                "m": 5, # number of bi-directional links created for each element during construction
-                "efConstruction": 400, # number of elements to be visited during construction
-                "efSearch": 1000, # number of elements to visited during search
-                "metric": "cosine" # distance metric used to compute the similarity between two vectors
+                "m": 5,  # number of bi-directional links created for each element during construction
+                "efConstruction": 400,  # number of elements to be visited during construction
+                "efSearch": 1000,  # number of elements to visited during search
+                "metric": "cosine"  # distance metric used to compute the similarity between two vectors
             }
         )
     ]
@@ -184,11 +171,9 @@ semantic_config = SemanticConfiguration(
     name="my-semantic-config",
     prioritized_fields=PrioritizedFields(
         title_field=SemanticField(field_name="certification_name"),
-        prioritized_keywords_fields=[SemanticField(field_name="skills.services.service_name")],
-        prioritized_content_fields=[
-            SemanticField(field_name="skills.skill_name"),
-            SemanticField(field_name="skills.services.service_description")
-        ]
+        prioritized_keywords_fields=[SemanticField(field_name="category")],
+        prioritized_content_fields=[SemanticField(field_name="service_name")]
+
     )
 )
 
@@ -205,14 +190,14 @@ print(f' {result.name} created')
 
 # create a datasource for the indexer. In this case it's cosmosdb.
 # a datasource is where the search index can get its data from.
+
+
 def _create_datasource():
     # Here we create a datasource.
     ds_client = SearchIndexerClient(cog_search_endpoint, cog_search_cred)
     container1 = SearchIndexerDataContainer(name="Certifications")
-    container2 = SearchIndexerDataContainer(name="Certifications", collection="skills")
-    container3 = SearchIndexerDataContainer(name="Certifications", collection="skills.services")
     data_source_connection = SearchIndexerDataSourceConnection(
-        name="project-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=CertificationData"), container=[container1, container2, container3]
+        name="project-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=CertificationData"), container=container1
     )
     data_source = ds_client.create_or_update_data_source_connection(
         data_source_connection)
@@ -233,17 +218,3 @@ print(f"{result.name} created")
 
 # Run the indexer we just created.
 indexer_client.run_indexer(result.name)
-
-# Simple function to assist with vector search
-def vector_search(query):
-    search_client = SearchClient(
-        cog_search_endpoint, index_name, cog_search_cred)
-    results = search_client.search(
-        search_text="",
-        vector=Vector(value=generate_embeddings(
-            query), k=3, fields="certificationNameVector"),
-        select=["certification_name", "skills.skill_name", "skills.services.service_name", "skills.services.service_description"]
-    )
-    return results
-
-

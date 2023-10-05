@@ -211,7 +211,7 @@ def _create_datasource():
     ds_client = SearchIndexerClient(cog_search_endpoint, cog_search_cred)
     container = SearchIndexerDataContainer(name="Certifications")
     data_source_connection = SearchIndexerDataSourceConnection(
-        name="cosmosdb-tutorial-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=CertificationData"), container=container
+        name="project-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=CertificationData"), container=container
     )
     data_source = ds_client.create_or_update_data_source_connection(
         data_source_connection)

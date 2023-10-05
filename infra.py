@@ -141,6 +141,7 @@ fields = [
 ]
 
 # https://azuresdkdocs.blob.core.windows.net/$web/python/azure-search-documents/latest/index.html#creating-an-index
+# https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/search/azure-search-documents/samples
 
 # Configure vector search for Azure Cognitive Search Index.
 # Vector search is used to find similar items based on their embeddings.

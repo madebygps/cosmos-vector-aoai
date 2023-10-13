@@ -10,9 +10,15 @@ A vector store and search implementation with Cosmos DB NoSQL, Python, Cognitive
 ## HNSW Notes
 
 - HNSW is a hierarchical navigable small world graph.
+- HNWS stands for Hierarchical Navigable Small World.
 - ANN approximate nearest neighbor search is a class of algorithms designed for finding matches in a vector space.
-- Hierarchical Navigable Small Worlds HSWN is one of the best performing algorithms for ANN searh
+- Hierarchical Navigable Small Worlds HSWN is one of the best performing algorithms for ANN search
 - https://learn.microsoft.com/azure/search/vector-search-overview#approximate-nearest-neighbors
+
+
+
+Cosine similarity is a measure of the angle between two vectors in a multidimensional space 1.
+It does not depend on the distance or magnitude of the vectors, only on their direction. Therefore, if two vectors are near each other, it does not necessarily mean they are more similar than vectors that are further apart. What matters is how aligned they are. For example, two vectors that are orthogonal (at 90 degrees) have zero cosine similarity, regardless of how close or far they are. On the other hand, two vectors that are parallel (at 0 or 180 degrees) have maximum or minimum cosine similarity, respectively, regardless of how close or far they
 
 ### HNSW Parameters
 - m: The number of bi-directional links created for each node during construction. This is the maximum number of connections that can be traversed during a search.

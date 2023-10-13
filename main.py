@@ -1,46 +1,19 @@
-import json
-import datetime
 import time
-
-from azure.core.exceptions import AzureError
-from azure.core.credentials import AzureKeyCredential
-from azure.cosmos import exceptions, CosmosClient, PartitionKey
-from azure.search.documents import SearchClient
-from azure.search.documents.indexes import SearchIndexClient, SearchIndexerClient
-from azure.search.documents.models import Vector
-from azure.search.documents.indexes.models import (
-    IndexingSchedule,
-    SearchIndex,
-    SearchIndexer,
-    SearchIndexerDataContainer,
-    SearchField,
-    SearchFieldDataType,
-    SearchableField,
-    SemanticConfiguration,
-    SimpleField,
-    PrioritizedFields,
-    SemanticField,
-    SemanticSettings,
-    VectorSearch,
-    VectorSearchAlgorithmConfiguration,
-    SearchIndexerDataSourceConnection
-)
-
 import openai
+from azure.core.credentials import AzureKeyCredential
+from azure.search.documents import SearchClient
+from azure.search.documents.models import Vector
 from tenacity import retry, wait_random_exponential, stop_after_attempt
-
 from dotenv import dotenv_values
 
-env_name = "local.env" # following example.env template change to your own .env file name
+env_name = "local.env" 
 config = dotenv_values(env_name)
 
 cosmosdb_endpoint = config['cosmos_db_api_endpoint']
 cosmosdb_key = config['cosmos_db_api_key']
 cosmosdb_connection_str = config['cosmos_db_connection_string']
-
 cog_search_endpoint = config['cognitive_search_api_endpoint']
 cog_search_key = config['cognitive_search_api_key']
-
 openai.api_type = config['openai_api_type']
 openai.api_key = config['openai_api_key']
 openai.api_base = config['openai_api_endpoint']
@@ -58,7 +31,6 @@ def generate_completion(results):
     - Write two lines of whitespace between each answer in the list.
     - If you're unsure of an answer, you can say "I don't know" or "I'm not sure" and recommend users search themselves.
     '''
-
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_input},
@@ -67,21 +39,26 @@ def generate_completion(results):
     for item in results:
         print(item)
         messages.append({"role": "system", "content": item['service_name']})
-
     response = openai.ChatCompletion.create(engine=completions_deployment, messages=messages)
-    
     return response
 
 
-# Simple function to assist with vector search
-
 def vector_search(query):
+    """
+    Searches for results in the specified index using the provided query and returns the top 3 results.
+
+    Args:
+        query (str): The query to search for.
+
+    Returns:
+        list: A list of dictionaries containing the top 3 results, each with the keys "certification_name", "service_name", and "category".
+    """
     search_client = SearchClient(
         cog_search_endpoint, index_name, cog_search_cred)
     results = search_client.search(
         search_text="",
         vector=Vector(value=generate_embeddings(
-            query), k=3, fields="certificationNameVector"),
+            query), k=5, fields="certificationNameVector"),
         select=["certification_name", "service_name", "category"]
     )
     return results
@@ -90,8 +67,10 @@ def vector_search(query):
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(10))
 def generate_embeddings(text):
     '''
-    Generate embeddings from string of text.
-    This will be used to vectorize data and user input for interactions with Azure OpenAI.
+    Generates embeddings from string of text.
+    Uses the text parameter as input and embeddings_deployment as engine for openai embeddings create method.
+    Waits 0.5 seconds to avoid rate limiting on AOAI.
+    Returns embeddings.
     '''
     response = openai.Embedding.create(
         input=text, engine=embeddings_deployment)
@@ -108,3 +87,4 @@ while user_input.lower() != "end":
     print("\n")
     print(completions_results['choices'][0]['message']['content'])
     user_input = input("Prompt: ")
+    

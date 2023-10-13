@@ -9,8 +9,7 @@ A vector store and search implementation with Cosmos DB NoSQL, Python, Cognitive
 
 ## HNSW Notes
 
-- HNSW is a hierarchical navigable small world graph.
-- HNWS stands for Hierarchical Navigable Small World.
+- HNSW stands for Hierarchical Navigable Small World.
 - ANN approximate nearest neighbor search is a class of algorithms designed for finding matches in a vector space.
 - Hierarchical Navigable Small Worlds HSWN is one of the best performing algorithms for ANN search
 - https://learn.microsoft.com/azure/search/vector-search-overview#approximate-nearest-neighbors

@@ -1,0 +1,50 @@
+[
+  {
+    "service_name": "Azure AI Vision",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Computer Vision",
+    "id": "e84dd38d-db4a-4899-8b6c-76b37934daa7"
+  },
+  {
+    "service_name": "Azure AI Face detection",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Computer Vision",
+    "id": "e89264df-bd33-4c23-8f72-043e2b24755b"
+  },
+  {
+    "service_name": "Azure AI Video Indexer",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Computer Vision",
+    "id": "e735de2a-f910-445c-a52e-bb619da1bff5"
+  },
+  {
+    "service_name": "Azure AI Language",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Natural Language Processing",
+    "id": "4ff32981-87c1-4f8d-bde2-c147a90b7374"
+  },
+  {
+    "service_name": "Azure AI Speech",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Natural Language Processing",
+    "id": "612fd6ec-761e-4b20-b859-33d155b0800f"
+  },
+  {
+    "service_name": "Azure AI Translator",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Natural Language Processing",
+    "id": "fcddf6c2-fe90-4ab0-b062-917c28bc917d"
+  },
+  {
+    "service_name": "Azure OpenAI Service",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Generative AI",
+    "id": "72f2fa85-cce3-4181-a328-fe572464a0d2"
+  },
+  {
+    "service_name": "Azure Machine Learning",
+    "certification_name": "AI-900: Microsoft Azure AI Fundamentals",
+    "category": "Machine Learning",
+    "id": "3a28d6fb-261b-44f8-a629-604d70964126"
+  }
+]

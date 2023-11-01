@@ -40,3 +40,8 @@ It does not depend on the distance or magnitude of the vectors, only on their di
 
 - A datasource is where the search index can get its data from.
 - An indexer will take the data from the datasource and put it into the search index.
+
+## Semantic kernel readfing
+
+- https://devblogs.microsoft.com/semantic-kernel/announcing-semantic-kernel-integration-with-azure-cognitive-search/
+- https://github.com/dluc/Azure-Cognitive-Search-20230720

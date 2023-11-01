@@ -1,12 +1,18 @@
+import os
 import time
 import openai
+import asyncio
+import semantic_kernel as sk
+from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion, AzureTextEmbedding
+from semantic_kernel.connectors.memory.azure_cognitive_search import AzureCognitiveSearchMemoryStore
+from semantic_kernel.core_skills import TextMemorySkill
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 from azure.search.documents.models import Vector
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from dotenv import dotenv_values
 
-env_name = "local.env" 
+env_name = ".env"
 config = dotenv_values(env_name)
 
 cosmosdb_endpoint = config['cosmos_db_api_endpoint']
@@ -23,27 +29,43 @@ completions_deployment = config['openai_completions_deployment']
 cog_search_cred = AzureKeyCredential(cog_search_key)
 index_name = "project-generator-index"
 
-def generate_completion(results):
-    system_prompt = '''
-    You are an experienced cloud engineer who provides advice to people trying to get hands-on skills while studying for their cloud certifications. You are designed to provide helpful project ideas with a short description, list of possible services to use, and skills that need to be practiced.
-    - Only provide project ideas that have products that are part of Microsoft Azure.
-    - Each response should be a project idea with a short description, list of possible services to use, and skills that need to be practiced.
-    - Write two lines of whitespace between each answer in the list.
-    - If you're unsure of an answer, you can say "I don't know" or "I'm not sure" and recommend users search themselves.
-    '''
-    messages=[
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_input},
-    ]
+kernel = sk.Kernel()
+deployment, api_key, endpoint = sk.azure_openai_settings_from_dot_env()
+kernel.add_chat_service("chat_completion", AzureChatCompletion(
+    deployment, endpoint, api_key))
 
-    for item in results:
-        print(item)
-        messages.append({"role": "system", "content": item['service_name']})
-    response = openai.ChatCompletion.create(engine=completions_deployment, messages=messages)
+# Configure embeddings service
+kernel.add_text_embedding_generation_service(
+    "ada",
+    AzureTextEmbedding(
+        "embeddings-v0",
+        config['openai_api_endpoint'],
+        config['openai_api_key']
+    ),
+)
+
+# Add memory
+kernel.register_memory_store(
+    memory_store=AzureCognitiveSearchMemoryStore(
+        1536, cog_search_endpoint, cog_search_key
+    )
+)
+
+
+# Add skills
+skill = kernel.import_semantic_skill_from_directory("skills", "GenerateSkill")
+generator_function = skill["Project"]
+kernel.import_skill(TextMemorySkill())
+
+
+def generate_completion(user_input):
+    context = kernel.create_new_context()
+    context[TextMemorySkill.COLLECTION_PARAM] = "project-generator-index"
+    response = generator_function(user_input, context=context)
     return response
 
 
-def vector_search(query):
+async def vector_search(query):
     """
     Searches for results in the specified index using the provided query and returns the top 3 results.
 
@@ -53,38 +75,24 @@ def vector_search(query):
     Returns:
         list: A list of dictionaries containing the top 3 results, each with the keys "certification_name", "service_name", and "category".
     """
-    search_client = SearchClient(
-        cog_search_endpoint, index_name, cog_search_cred)
-    results = search_client.search(
-        search_text="",
-        vector=Vector(value=generate_embeddings(
-            query), k=5, fields="certificationNameVector"),
-        select=["certification_name", "service_name", "category"]
-    )
+
+    results = await kernel.memory.search_async("project-generator-index", query, limit=3)
+    print(results)
+
     return results
 
 
-@retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(10))
-def generate_embeddings(text):
-    '''
-    Generates embeddings from string of text.
-    Uses the text parameter as input and embeddings_deployment as engine for openai embeddings create method.
-    Waits 0.5 seconds to avoid rate limiting on AOAI.
-    Returns embeddings.
-    '''
-    response = openai.Embedding.create(
-        input=text, engine=embeddings_deployment)
-    embeddings = response['data'][0]['embedding']
-    time.sleep(0.5) # rest period to avoid rate limiting on AOAI for free tier
-    return embeddings
 
-user_input = ""
-print("*** Please just ask: Type 'end' to end the session.\n")
-user_input = input("Prompt: ")
-while user_input.lower() != "end":
-    results_for_prompt = vector_search(user_input)
-    completions_results = generate_completion(results_for_prompt)
-    print("\n")
-    print(completions_results['choices'][0]['message']['content'])
-    user_input = input("Prompt: ")
-    
+
+async def main():
+    user_input = ""
+    print("*** Type 'end' to end the session.\n")
+    user_input = input("Certification Name: ")
+    while user_input.lower() != "end":
+        await vector_search(user_input)
+        completions_results = generate_completion(user_input)
+        print("\n")
+        print(completions_results)
+        user_input = input("Certification Name: ")
+
+asyncio.run(main())

@@ -1,5 +1,9 @@
 # cosmos-vector-aoai
-A vector store and search implementation with Cosmos DB NoSQL, Python, Cognitive Search, and Azure OpenAI
+A vector store and search implementation with Cosmos DB NoSQL, Python, Cognitive Search, and Azure OpenAI.
+
+## Note
+
+The completions from AOAI are grounded by a vector search and index loaded with manually prepared data.
 
 ## Azure Cognitive Search Vector Search Notes
 - Vector search is a method of information retrieval where documents and queries are represented as vectors instead of plain text. 
@@ -13,7 +17,6 @@ A vector store and search implementation with Cosmos DB NoSQL, Python, Cognitive
 - ANN approximate nearest neighbor search is a class of algorithms designed for finding matches in a vector space.
 - Hierarchical Navigable Small Worlds HSWN is one of the best performing algorithms for ANN search
 - https://learn.microsoft.com/azure/search/vector-search-overview#approximate-nearest-neighbors
-
 
 
 Cosine similarity is a measure of the angle between two vectors in a multidimensional space 1.
@@ -41,7 +44,7 @@ It does not depend on the distance or magnitude of the vectors, only on their di
 - A datasource is where the search index can get its data from.
 - An indexer will take the data from the datasource and put it into the search index.
 
-## Semantic kernel readfing
+## Semantic kernel reading
 
 - https://devblogs.microsoft.com/semantic-kernel/announcing-semantic-kernel-integration-with-azure-cognitive-search/
 - https://github.com/dluc/Azure-Cognitive-Search-20230720

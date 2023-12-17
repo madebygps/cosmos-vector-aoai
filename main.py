@@ -1,98 +1,110 @@
-import os
+import json
+import datetime
 import time
-import openai
-import asyncio
-import semantic_kernel as sk
-from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion, AzureTextEmbedding
-from semantic_kernel.connectors.memory.azure_cognitive_search import AzureCognitiveSearchMemoryStore
-from semantic_kernel.core_skills import TextMemorySkill
+
+from azure.core.exceptions import AzureError
 from azure.core.credentials import AzureKeyCredential
+#from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from azure.search.documents import SearchClient
+from azure.search.documents.indexes import SearchIndexClient, SearchIndexerClient
 from azure.search.documents.models import Vector
+from azure.search.documents.indexes.models import (
+    IndexingSchedule,
+    SearchIndex,
+    SearchIndexer,
+    SearchIndexerDataContainer,
+    SearchField,
+    SearchFieldDataType,
+    SearchableField,
+    SemanticConfiguration,
+    SimpleField,
+    PrioritizedFields,
+    SemanticField,
+    SemanticSettings,
+    VectorSearch,
+    VectorSearchAlgorithmConfiguration,
+    SearchIndexerDataSourceConnection
+)
+
+import openai
+from openai import AzureOpenAI
+
+
 from tenacity import retry, wait_random_exponential, stop_after_attempt
+
 from dotenv import dotenv_values
 
-env_name = ".env"
+env_name = ".env" # following example.env template change to your own .env file name
 config = dotenv_values(env_name)
 
-cosmosdb_endpoint = config['cosmos_db_api_endpoint']
-cosmosdb_key = config['cosmos_db_api_key']
-cosmosdb_connection_str = config['cosmos_db_connection_string']
 cog_search_endpoint = config['cognitive_search_api_endpoint']
 cog_search_key = config['cognitive_search_api_key']
-openai.api_type = config['openai_api_type']
-openai.api_key = config['openai_api_key']
-openai.api_base = config['openai_api_endpoint']
-openai.api_version = config['openai_api_version']
+
+# TODO: The 'openai.api_base' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(api_base=config['openai_api_endpoint'])'
+
+client = AzureOpenAI(azure_endpoint=config['openai_api_endpoint'], api_key=config['openai_api_key'],
+api_version=config['openai_api_version'])
+
+
 embeddings_deployment = config['openai_embeddings_deployment']
 completions_deployment = config['openai_completions_deployment']
 cog_search_cred = AzureKeyCredential(cog_search_key)
 index_name = "project-generator-index"
 
-kernel = sk.Kernel()
-deployment, api_key, endpoint = sk.azure_openai_settings_from_dot_env()
-kernel.add_chat_service("chat_completion", AzureChatCompletion(
-    deployment, endpoint, api_key))
+def generate_completion(results):
+    system_prompt = '''
+    You are an experienced cloud engineer who provides advice to people trying to get hands-on skills while studying for their cloud certifications. You are designed to provide helpful project ideas with a short description, list of possible services to use, and skills that need to be practiced.
+    - Only provide project ideas that have products that are part of Microsoft Azure.
+    - Each response should be a project idea with a short description, list of possible services to use, and skills that need to be practiced.
+    - Write two lines of whitespace between each answer in the list.
+    - If you're unsure of an answer, you can say "I don't know" or "I'm not sure" and recommend users search themselves.
+    '''
 
-# Configure embeddings service
-kernel.add_text_embedding_generation_service(
-    "ada",
-    AzureTextEmbedding(
-        "embeddings-v0",
-        config['openai_api_endpoint'],
-        config['openai_api_key']
-    ),
-)
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_input},
+    ]
 
-# Add memory
-kernel.register_memory_store(
-    memory_store=AzureCognitiveSearchMemoryStore(
-        1536, cog_search_endpoint, cog_search_key
-    )
-)
+    for item in results:
+        print(item)
+        messages.append({"role": "system", "content": item['service_name']})
 
-
-# Add skills
-skill = kernel.import_semantic_skill_from_directory("skills", "GenerateSkill")
-generator_function = skill["Project"]
-kernel.import_skill(TextMemorySkill())
-
-
-def generate_completion(user_input):
-    context = kernel.create_new_context()
-    context[TextMemorySkill.COLLECTION_PARAM] = "project-generator-index"
-    response = generator_function(user_input, context=context)
+    response = client.chat.completions.create(model=completions_deployment, messages=messages)
+    
     return response
 
 
-async def vector_search(query):
-    """
-    Searches for results in the specified index using the provided query and returns the top 3 results.
+# Simple function to assist with vector search
 
-    Args:
-        query (str): The query to search for.
-
-    Returns:
-        list: A list of dictionaries containing the top 3 results, each with the keys "certification_name", "service_name", and "category".
-    """
-
-    results = await kernel.memory.search_async("project-generator-index", query, limit=3)
-    print(results)
-
+def vector_search(query):
+    search_client = SearchClient(
+        cog_search_endpoint, index_name, cog_search_cred)
+    results = search_client.search(
+        search_text="",
+        vector=Vector(value=generate_embeddings(
+            query), k=3, fields="certificationNameVector"),
+        select=["certification_name", "service_name", "category"]
+    )
     return results
 
 
+@retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(10))
+def generate_embeddings(text):
+    '''
+    Generate embeddings from string of text.
+    This will be used to vectorize data and user input for interactions with Azure OpenAI.
+    '''
+    response = client.embeddings.create(input=[text], model=embeddings_deployment)
+    embeddings = response.data[0].embedding
+    time.sleep(0.5)  # rest period to avoid rate limiting on AOAI for free tier
+    return embeddings
 
-
-async def main():
-    user_input = ""
-    print("*** Type 'end' to end the session.\n")
-    user_input = input("Certification Name: ")
-    while user_input.lower() != "end":
-        await vector_search(user_input)
-        completions_results = generate_completion(user_input)
-        print("\n")
-        print(completions_results)
-        user_input = input("Certification Name: ")
-
-asyncio.run(main())
+user_input = ""
+print("*** Please just ask: Type 'end' to end the session.\n")
+user_input = input("Prompt: ")
+while user_input.lower() != "end":
+    results_for_prompt = vector_search(user_input)
+    completions_results = generate_completion(results_for_prompt)
+    print("\n")
+    print(completions_results.choices[0].message.content)
+    user_input = input("Prompt: ")

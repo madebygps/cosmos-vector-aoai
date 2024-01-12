@@ -49,7 +49,7 @@ api_version=config['openai_api_version'])
 embeddings_deployment = config['openai_embeddings_deployment']
 completions_deployment = config['openai_completions_deployment']
 cog_search_cred = AzureKeyCredential(cog_search_key)
-index_name = "project-generator-index"
+index_name = "project-generator-idea-index"
 
 def generate_completion(results):
     system_prompt = '''

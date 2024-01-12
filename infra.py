@@ -1,8 +1,9 @@
 import json
 import time
+import azure.cosmos.exceptions as exceptions
 
 from azure.core.credentials import AzureKeyCredential
-#from azure.cosmos import exceptions, CosmosClient, PartitionKey
+from azure.cosmos import CosmosClient, PartitionKey
 from azure.search.documents.indexes import SearchIndexClient, SearchIndexerClient
 from azure.search.documents.indexes.models import (
     SearchIndex,
@@ -74,52 +75,52 @@ def generate_embeddings(text):
     return embeddings
 
 
-# # Generate embeddings for each certification name, skill name, service name and service description
-# for certification in certification_data:
-#     certification_name = certification['certification_name']
-#     certification_name_embeddings = generate_embeddings(certification_name)
-#     certification['certificationNameVector'] = certification_name_embeddings
-#     certification_service = certification['service_name']
-#     certification_service_embeddings = generate_embeddings(
-#         certification_service)
-#     certification['certificationServiceVector'] = certification_service_embeddings
-#     # Marks each certification to be uploaded to the index so it can be searched
-#     certification['@search.action'] = 'upload'
+# Generate embeddings for each certification name, skill name, service name and service description
+for certification in certification_data:
+    certification_name = certification['certification_name']
+    certification_name_embeddings = generate_embeddings(certification_name)
+    certification['certificationNameVector'] = certification_name_embeddings
+    certification_service = certification['service_name']
+    certification_service_embeddings = generate_embeddings(
+        certification_service)
+    certification['certificationServiceVector'] = certification_service_embeddings
+    # Marks each certification to be uploaded to the index so it can be searched
+    certification['@search.action'] = 'upload'
 
 
-# # Save embeddings to new file
-# with open("certs_embeddings.json", "w") as f:
-#     json.dump(certification_data, f)
+# Save embeddings to new file
+with open("certs_embeddings.json", "w") as f:
+    json.dump(certification_data, f)
 
-# # Create the client to interact with the Azure Cosmos DB resource
-# client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
+# Create the client to interact with the Azure Cosmos DB resource
+client = CosmosClient(cosmosdb_endpoint, cosmosdb_key)
 
-# # Create a database in Azure Cosmos DB.
-# try:
-#     database = client.create_database_if_not_exists(id="CertificationProjectData")
-#     print(f"Database created: {database.id}")
+# Create a database in Azure Cosmos DB.
+try:
+    database = client.create_database_if_not_exists(id="CertificationProjectData")
+    print(f"Database created: {database.id}")
 
-# except exceptions.CosmosResourceExistsError:
-#     print("Database already exists.")
+except exceptions.CosmosResourceExistsError:
+    print("Database already exists.")
 
-# # Create a container in Azure Cosmos DB.
-# try:
-#     partition_key_path = PartitionKey(path="/id")
-#     container = database.create_container_if_not_exists(
-#         id="Certifications",
-#         partition_key=partition_key_path
-#     )
-#     print(f"Container created: {container.id}")
+# Create a container in Azure Cosmos DB.
+try:
+    partition_key_path = PartitionKey(path="/id")
+    container = database.create_container_if_not_exists(
+        id="Certifications",
+        partition_key=partition_key_path
+    )
+    print(f"Container created: {container.id}")
 
-# except exceptions.CosmosResourceExistsError:
-#     print("Container already exists.")
+except exceptions.CosmosResourceExistsError:
+    print("Container already exists.")
 
-# # Upload each certification to the cosmos db container
-# for certification_data_item in certification_data:
-#     try:
-#         container.create_item(body=certification_data_item)
-#     except exceptions.CosmosResourceExistsError:
-#         print("Data item already exists.")
+# Upload each certification to the cosmos db container
+for certification_data_item in certification_data:
+    try:
+        container.create_item(body=certification_data_item)
+    except exceptions.CosmosResourceExistsError:
+        print("Data item already exists.")
 
 
 # Create search index schema (names, types, and parameters)
@@ -182,7 +183,7 @@ def _create_datasource():
     ds_client = SearchIndexerClient(cog_search_endpoint, cog_search_cred)
     container1 = SearchIndexerDataContainer(name="Certifications")
     data_source_connection = SearchIndexerDataSourceConnection(
-        name="project-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=CertificationData"), container=container1
+        name="project-indexer", type="cosmosdb", connection_string=(f"{cosmosdb_connection_str}Database=CertificationProjectData"), container=container1
     )
     data_source = ds_client.create_or_update_data_source_connection(
         data_source_connection)

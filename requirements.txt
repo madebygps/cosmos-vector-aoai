@@ -1,0 +1,5 @@
+azure-core
+azure-search-documents
+dotenv
+openai
+tenacity

@@ -4,7 +4,6 @@ import time
 
 from azure.core.exceptions import AzureError
 from azure.core.credentials import AzureKeyCredential
-#from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from azure.search.documents import SearchClient
 from azure.search.documents.indexes import SearchIndexClient, SearchIndexerClient
 from azure.search.documents.models import Vector
